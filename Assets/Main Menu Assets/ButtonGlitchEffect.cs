@@ -38,6 +38,15 @@ public class ButtonGlitchEffect : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         if (textComponent != null)
         {
+            CaptureOriginalText();
+        }
+    }
+
+    // Call this to update the stored original text
+    public void CaptureOriginalText()
+    {
+        if (textComponent != null)
+        {
             originalText = textComponent.text;
             originalColor = textComponent.color;
         }
