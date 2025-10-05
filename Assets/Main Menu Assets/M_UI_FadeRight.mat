@@ -46,8 +46,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _EnableExternalAlpha: 0
-    - _FadeStart: 0.7
-    - _FadeWidth: 0.35
+    - _FadeStart: 0.637
+    - _FadeWidth: 0.334
     - _ZWrite: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
