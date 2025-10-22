@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 827113117}
   - component: {fileID: 827113116}
   - component: {fileID: 827113120}
+  - component: {fileID: 827113121}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -340,8 +341,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 15
-  dodgeSpeed: 20
-  dodgeDuration: 0.3
+  dodgeSpeed: 25
+  dodgeDuration: 1
 --- !u!61 &827113118
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -413,7 +414,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &827113120
 MonoBehaviour:
@@ -445,6 +446,21 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &827113121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827113112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33791e34914155d469fd030fb9c5679b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackHitbox
+  hitboxOffset: {x: 2, y: 0}
+  hitboxSize: {x: 6, y: 7}
+  showHitboxDebug: 1
 --- !u!1 &1207470083
 GameObject:
   m_ObjectHideFlags: 0
