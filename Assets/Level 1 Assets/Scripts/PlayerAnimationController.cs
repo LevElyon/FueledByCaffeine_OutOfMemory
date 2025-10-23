@@ -85,6 +85,18 @@ public class PlayerAnimationController : MonoBehaviour
         isThrowing = false;
     }
 
+    public void OnAttackStart()
+    {
+        Debug.Log("OnAttackStart called!");
+        GetComponent<PlayerAttackHitbox>().ActivateHitbox();
+    }
+
+    public void OnAttackEnd()
+    {
+        Debug.Log("OnAttackEnd called!");
+        GetComponent<PlayerAttackHitbox>().DeactivateHitbox();
+    }
+
     // Getters
     public bool IsAttacking() { return isAttacking; }
     public bool IsDodging() { return isDodging; }

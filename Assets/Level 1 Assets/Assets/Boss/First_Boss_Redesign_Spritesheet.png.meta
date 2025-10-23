@@ -1,0 +1,559 @@
+fileFormatVersion: 2
+guid: c1b9055416746534985890e382daac1c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4904461260368540382
+    second: First_Boss_Redesign_Spritesheet_0
+  - first:
+      213: -5660802627258344630
+    second: First_Boss_Redesign_Spritesheet_1
+  - first:
+      213: 5259855371806224545
+    second: First_Boss_Redesign_Spritesheet_2
+  - first:
+      213: 934683045742288708
+    second: First_Boss_Redesign_Spritesheet_3
+  - first:
+      213: 1859497336165215903
+    second: First_Boss_Redesign_Spritesheet_4
+  - first:
+      213: -6743909443722008904
+    second: First_Boss_Redesign_Spritesheet_5
+  - first:
+      213: 3458956312915821377
+    second: First_Boss_Redesign_Spritesheet_6
+  - first:
+      213: 5218339483079482484
+    second: First_Boss_Redesign_Spritesheet_7
+  - first:
+      213: 2713074726347136507
+    second: First_Boss_Redesign_Spritesheet_8
+  - first:
+      213: 4907560915399053697
+    second: First_Boss_Redesign_Spritesheet_9
+  - first:
+      213: -2223729417687290884
+    second: First_Boss_Redesign_Spritesheet_10
+  - first:
+      213: -5742718629445760197
+    second: First_Boss_Redesign_Spritesheet_11
+  - first:
+      213: -885220877193217003
+    second: First_Boss_Redesign_Spritesheet_12
+  - first:
+      213: 7760285112015885380
+    second: First_Boss_Redesign_Spritesheet_13
+  - first:
+      213: 7615121145010731780
+    second: First_Boss_Redesign_Spritesheet_14
+  - first:
+      213: -8123301950692148420
+    second: First_Boss_Redesign_Spritesheet_15
+  - first:
+      213: 8616967932465430858
+    second: First_Boss_Redesign_Spritesheet_16
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 800
+        width: 317
+        height: 193
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed27ee60885201440800000000000000
+      internalID: 4904461260368540382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 788
+        width: 172
+        height: 266
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4b1ba2b00ac071b0800000000000000
+      internalID: -5660802627258344630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 691
+        y: 837
+        width: 228
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a0b07eb792cef840800000000000000
+      internalID: 5259855371806224545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 1013
+        y: 933
+        width: 90
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44f9c072749a8fc00800000000000000
+      internalID: 934683045742288708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 1001
+        y: 925
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9ea9e6a9f24ec910800000000000000
+      internalID: 1859497336165215903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 977
+        y: 888
+        width: 11
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b62c897712d862a0800000000000000
+      internalID: -6743909443722008904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 482
+        width: 190
+        height: 183
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14341f4b07ea00030800000000000000
+      internalID: 3458956312915821377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 460
+        width: 203
+        height: 262
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47c1956ac144b6840800000000000000
+      internalID: 5218339483079482484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 664
+        y: 489
+        width: 298
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfdd201d617c6a520800000000000000
+      internalID: 2713074726347136507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 614
+        width: 85
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18193f3b6a82b1440800000000000000
+      internalID: 4907560915399053697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 1129
+        y: 511
+        width: 79
+        height: 183
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfba92e50e9b321e0800000000000000
+      internalID: -2223729417687290884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 60
+        width: 665
+        height: 348
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3b0ede25d3cd40b0800000000000000
+      internalID: -5742718629445760197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 797
+        y: 237
+        width: 152
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51c73236d4017b3f0800000000000000
+      internalID: -885220877193217003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 256
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4449571913212bb60800000000000000
+      internalID: 7760285112015885380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 1025
+        y: 228
+        width: 165
+        height: 202
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40b3ee1b5585ea960800000000000000
+      internalID: 7615121145010731780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 76
+        width: 156
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3bb1c93aeb344f80800000000000000
+      internalID: -8123301950692148420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: First_Boss_Redesign_Spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 1051
+        y: 91
+        width: 112
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a41c88f0eae959770800000000000000
+      internalID: 8616967932465430858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      First_Boss_Redesign_Spritesheet_0: 4904461260368540382
+      First_Boss_Redesign_Spritesheet_1: -5660802627258344630
+      First_Boss_Redesign_Spritesheet_10: -2223729417687290884
+      First_Boss_Redesign_Spritesheet_11: -5742718629445760197
+      First_Boss_Redesign_Spritesheet_12: -885220877193217003
+      First_Boss_Redesign_Spritesheet_13: 7760285112015885380
+      First_Boss_Redesign_Spritesheet_14: 7615121145010731780
+      First_Boss_Redesign_Spritesheet_15: -8123301950692148420
+      First_Boss_Redesign_Spritesheet_16: 8616967932465430858
+      First_Boss_Redesign_Spritesheet_2: 5259855371806224545
+      First_Boss_Redesign_Spritesheet_3: 934683045742288708
+      First_Boss_Redesign_Spritesheet_4: 1859497336165215903
+      First_Boss_Redesign_Spritesheet_5: -6743909443722008904
+      First_Boss_Redesign_Spritesheet_6: 3458956312915821377
+      First_Boss_Redesign_Spritesheet_7: 5218339483079482484
+      First_Boss_Redesign_Spritesheet_8: 2713074726347136507
+      First_Boss_Redesign_Spritesheet_9: 4907560915399053697
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

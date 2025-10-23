@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class BossHandler : MonoBehaviour
@@ -5,8 +6,9 @@ public class BossHandler : MonoBehaviour
     public float moveSpeed = 5f;
     public float maxHP = 500;
     private float currentHP;
+    private bool isPhase1 = true;
 
-    public float attackRange = 2.5f;
+    public float attackRange = 16f;
     public float stunDur = 1.5f;
     public float staggerMin = 0f;
     public float staggerMax = 100f;
@@ -16,34 +18,16 @@ public class BossHandler : MonoBehaviour
 
     private BossStates currentState;
     public Transform startPoint;
-    public Animator bossAnims;
+    //public Animator bossAnims;
 
-    private PlayerMovement player;
+    public GameObject Line1;
+    public GameObject Line2;
+    public GameObject Line3;
 
-    private void FixedUpdate()
+    public PlayerMovement player;
+
+    private void Start()
     {
-        currentState.DoUpdate(Time.fixedDeltaTime);
-    }
-
-    public void SetCurrentState(BossStates state)
-    {
-        currentState = state;
-    }
-
-    public string GetCurrentState()
-    {
-        return currentState.ToString();
-    }
-
-    private void Update()
-    {
-        attackCD += Time.deltaTime;
-    }
-
-    public void Initialize(PlayerMovement aplayer)
-    {
-        player = aplayer;
-
         this.transform.position = startPoint.position;
 
         attackCD = attackInt;
@@ -51,6 +35,37 @@ public class BossHandler : MonoBehaviour
 
         currentState = new BossStatesChase1(this);
     }
+
+    private void FixedUpdate()
+    {
+        currentState.DoUpdate(Time.fixedDeltaTime);
+        Debug.Log(GetCurrentState());
+    }
+
+    public void SetCurrentState(BossStates state)
+    {
+        currentState = state;
+    }
+
+    public BossStates GetCurrentState()
+    {
+        return currentState;
+    }
+
+    private void Update()
+    {
+        attackCD += Time.deltaTime;
+    }
+
+    //public void Initialize(PlayerMovement aplayer)
+    //{
+    //    this.transform.position = startPoint.position;
+
+    //    attackCD = attackInt;
+    //    currentHP = maxHP;
+
+    //    currentState = new BossStatesChase1(this);
+    //}
     public void MoveTowards(float dTime, Vector2 targetPos, float moveSpeed)
     {
 
@@ -104,7 +119,9 @@ public class BossHandler : MonoBehaviour
     public bool CheckPlayerWithinAttackRange()
     {
         //check player is within attack range
-        bool isInRange = Vector2.Distance(player.transform.position, this.transform.position) < attackRange;
+        bool isInRange = (Vector2.Distance(player.gameObject.transform.position, this.transform.position) <= attackRange ? true : false);
+        Debug.Log(Vector2.Distance(player.gameObject.transform.position, this.transform.position));
+        Debug.Log("In range = " + isInRange);
 
         return isInRange;
     }
@@ -114,15 +131,40 @@ public class BossHandler : MonoBehaviour
         return (attackCD >= attackInt ? true : false);
     }
 
-    public void DoAttack(float type)
+    public bool CheckIsPlayerLeftSide()
     {
+        return ((player.transform.position.x < this.transform.position.x) ? true : false);
+    }
+
+    public void DoAttackPhase1(float type)
+    {
+        Debug.Log("Phase 1: Attack");
         switch (type)
         {
             case (1):
-                bossAnims.Play("");
+
+                //bossAnims.Play("");
                 break;
             case (2):
-                bossAnims.Play("");
+                //bossAnims.Play("");
+                break;
+
+            default: return;
+        }
+
+    }
+
+    public void DoAttackPhase2(float type)
+    {
+        Vector2 startPos;
+        Debug.Log("Phase 2: Attack");
+        switch (type)
+        {
+            case (1):
+                //bossAnims.Play("");
+                break;
+            case (2):
+                //bossAnims.Play("");
                 break;
 
             default: return;
@@ -132,13 +174,47 @@ public class BossHandler : MonoBehaviour
 
     public void OnHit(float damage)
     {
-        if (currentHP - damage <= 0)
+        Debug.Log("Got hit by player for " + damage);
+        SoundManager.PlaySound(SoundType.BossHurt, 1);
+
+        if (isPhase1)
         {
-            //Boss dies
+            if (currentHP - damage <= (maxHP / 2))
+            {
+                isPhase1 = false;
+                //Change current state to phase 2 attacks
+                currentHP -= damage;
+                return;
+            }
+
+            currentHP -= damage;
+            //currentState = new BossStatesStalk1(this);
             return;
         }
 
-        currentHP -= damage;
-        currentState = new BossStatesStalk1(this);
+        if (!isPhase1)
+        {
+            if (currentHP - damage <= 0)
+            {
+                //Play dying sound
+                BossDies();
+                return;
+            }
+
+            currentHP -= damage;
+            //Change current state to phase 2 attacks
+            return;
+        }
+        
+    }
+
+    public void BossDies()
+    {
+        Destroy(this.gameObject, 2);
+    }
+
+    public IEnumerator LeftAttackPhase1()
+    {
+        yield return null;
     }
 }

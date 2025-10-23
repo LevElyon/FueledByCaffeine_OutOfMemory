@@ -19,10 +19,12 @@ public class BossStatesChase1 : BossStates
 {
     public BossStatesChase1(BossHandler bossHandler) : base(bossHandler)
     {
-        Debug.Log(bossHandler.GetCurrentState());
+        
     }
     public override void DoUpdate(float dTime)
     {
+        Vector2 targetPos = bossScript.playerPos();
+
         if (bossScript.CheckStagger())
         {
             bossScript.SetCurrentState(new BossStatesStun1(bossScript));
@@ -32,11 +34,15 @@ public class BossStatesChase1 : BossStates
         {
             bossScript.SetCurrentState(new BossStatesAttack1(bossScript));
         }
+        else
+        {
+            bossScript.MoveTowards(dTime, targetPos, bossScript.moveSpeed);
+        }
     }
 
     public override void InRangePlayer()
     {
-        throw new System.NotImplementedException();
+        
     }
 }
 
@@ -46,7 +52,6 @@ public class BossStatesStalk1 : BossStates
     public BossStatesStalk1(BossHandler bossHandler) : base(bossHandler)
     {
         stalkingDur = 0;
-        Debug.Log(bossHandler.GetCurrentState());
     }
     public override void DoUpdate(float dTime)
     {
@@ -72,7 +77,7 @@ public class BossStatesStalk1 : BossStates
 
     public override void InRangePlayer()
     {
-        throw new System.NotImplementedException();
+        
     }
 }
     
@@ -80,7 +85,7 @@ public class BossStatesAttack1 : BossStates
 {
     public BossStatesAttack1(BossHandler bossHandler) : base(bossHandler)
     {
-        Debug.Log(bossHandler.GetCurrentState());
+        
     }
     public override void DoUpdate(float dTime)
     {
@@ -95,7 +100,7 @@ public class BossStatesAttack1 : BossStates
         {
             if (bossScript.CheckPlayerWithinAttackRange())
             {
-                bossScript.DoAttack(1);
+                bossScript.DoAttackPhase1(1);
             }
             else
             {
@@ -106,7 +111,7 @@ public class BossStatesAttack1 : BossStates
 
     public override void InRangePlayer()
     {
-        throw new System.NotImplementedException();
+        
     }
 }
 
@@ -116,7 +121,6 @@ public class BossStatesStun1 : BossStates
     private float stunMax;
     public BossStatesStun1(BossHandler bossHandler) : base(bossHandler)
     {
-        Debug.Log(bossHandler.GetCurrentState());
         stunDur = 0;
         stunMax = 3;
     }
@@ -132,6 +136,24 @@ public class BossStatesStun1 : BossStates
 
     public override void InRangePlayer()
     {
-        throw new System.NotImplementedException();
+        
+    }
+}
+
+public class BossStatesAttack2 : BossStates 
+{
+    public BossStatesAttack2(BossHandler bossHandler) : base(bossHandler)
+    {
+
+    }
+
+    public override void DoUpdate(float dTime)
+    {
+        
+    }
+
+    public override void InRangePlayer()
+    {
+        
     }
 }
