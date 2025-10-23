@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -104,6 +105,10 @@ public class PlayerMovement : MonoBehaviour
 
         // Can't dodge if already dodging or if no movement input
         if (isDodging || moveInput.magnitude < 0.1f)
+            return;
+
+        // Prevent dodge during attack/ throw
+        if (animController.IsAttacking() || animController.IsThrowing())
             return;
 
         // Start dodge
