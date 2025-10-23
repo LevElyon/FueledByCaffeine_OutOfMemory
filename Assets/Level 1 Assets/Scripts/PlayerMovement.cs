@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;
     public float dodgeSpeed = 10f;
     public float dodgeDuration = 1.0f;
-    public float attackDamage;
 
     private Vector2 moveInput;
     private Rigidbody2D rb;
