@@ -20,6 +20,7 @@ public class BlockParryController : MonoBehaviour
 
     private float parryActiveTime = 0f;       // How long player has been blocking (tracks window)
     private bool blockActive = false;         // Is the parry window currently open?
+    private bool parryAnimationPlaying = false;  // ADD THIS - tracks if parry animation is playing
 
     private PlayerAnimationController animController;
     private Animator animator;
@@ -72,7 +73,13 @@ public class BlockParryController : MonoBehaviour
     {
         isBlocking = false;
         blockActive = false;
-        isParrying = false;
+
+        // Only reset isParrying if parry animation is NOT currently playing
+        if (!parryAnimationPlaying)  // ADD THIS CHECK
+        {
+            isParrying = false;
+        }
+
         parryActiveTime = 0f;
 
         animController.StopBlock();
@@ -97,15 +104,20 @@ public class BlockParryController : MonoBehaviour
         return false;
     }
 
+    public bool IsParryAnimationPlaying()
+    {
+        return parryAnimationPlaying;
+    }
+
     /// <summary>
     /// Executes the parry action - called from CheckParry or directly if needed
     /// </summary>
     private void ExecuteParry()
     {
+        UnityEngine.Debug.Log("ExecuteParry() called - about to set isParrying to true and trigger animation");
         isParrying = true;
-        blockActive = false; // End parry window after successful parry
-
-        // Trigger parry animation
+        parryAnimationPlaying = true;  // ADD THIS
+        blockActive = false;
         animController.TriggerParry();
     }
 
@@ -117,17 +129,21 @@ public class BlockParryController : MonoBehaviour
     /// </summary>
     public void OnParryEnd()
     {
+        UnityEngine.Debug.Log("OnParryEnd CALLED - resetting isParrying to false");
         isParrying = false;
+        parryAnimationPlaying = false;  // ADD THIS
+        animator.SetBool("IsParrying", false);
 
-        // If still holding block input, return to blocking stance
         if (isBlocking)
         {
+            UnityEngine.Debug.Log("Still holding block, returning to Player_block");
             blockActive = true;
             parryActiveTime = 0f;
             animController.TriggerBlock();
         }
         else
         {
+            UnityEngine.Debug.Log("Block released, going to idle");
             animController.StopBlock();
         }
     }

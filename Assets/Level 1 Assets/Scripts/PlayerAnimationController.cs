@@ -109,7 +109,8 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void TriggerParry()
     {
-        animator.SetTrigger("IsParrying");
+        UnityEngine.Debug.Log("TriggerParry() called - setting IsParrying to true");
+        animator.SetBool("IsParrying", true);
     }
 
     public void OnParryEnd()

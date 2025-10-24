@@ -51,13 +51,14 @@ public class PlayerMovement : MonoBehaviour
                 moveInput = playerInputAsset.Player.Move.ReadValue<Vector2>();
             }
         }
-        else if (blockParryController.isBlocking)  // MOVE THIS UP - CHECK BLOCK SECOND
+        else if (blockParryController.isBlocking || blockParryController.isParrying)  // ADD isParrying CHECK
         {
-            rb.linearVelocity = Vector2.zero;  // Lock movement while blocking
+            rb.linearVelocity = Vector2.zero;
+            animController.SetMovementAnimation(Vector2.zero);  // Reset movement animation
         }
-        else if (!animController.IsAttacking() && !animController.IsThrowing())
+        else if (!animController.IsAttacking() && !animController.IsThrowing() && !blockParryController.isBlocking)
         {
-            // Normal movement
+            // Normal movement - BUT NOT while blocking
             Vector2 movement = moveInput * moveSpeed;
             rb.linearVelocity = movement;
             animController.SetMovementAnimation(moveInput);
@@ -86,8 +87,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnAttack(InputValue value)
     {
-        // Can't attack while dodging
-        if (isDodging || blockParryController.isBlocking)
+        // Don't attack while dodging, blocking, or parrying
+        if (isDodging || blockParryController.isBlocking || blockParryController.IsParryAnimationPlaying())
             return;
 
         if (!animController.IsAttacking() && !animController.IsThrowing())
@@ -102,11 +103,11 @@ public class PlayerMovement : MonoBehaviour
         if (!value.isPressed)
             return;
 
-        // Can't dodge if already dodging or if no movement input
-        if (isDodging || moveInput.magnitude < 0.1f || blockParryController.isBlocking)
+        // Can't dodge if already dodging, no movement input, blocking, or parrying
+        if (isDodging || moveInput.magnitude < 0.1f || blockParryController.isBlocking || blockParryController.IsParryAnimationPlaying())
             return;
 
-        // Prevent dodge during attack/ throw
+        // Prevent dodge during attack/throw
         if (animController.IsAttacking() || animController.IsThrowing())
             return;
 
@@ -120,8 +121,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnThrow(InputValue value)
     {
-        // Can't throw while dodging
-        if (isDodging || blockParryController.isBlocking)
+        // Don't throw while dodging, blocking, or parrying
+        if (isDodging || blockParryController.isBlocking || blockParryController.IsParryAnimationPlaying())
             return;
 
         if (!animController.IsAttacking() && !animController.IsThrowing())
