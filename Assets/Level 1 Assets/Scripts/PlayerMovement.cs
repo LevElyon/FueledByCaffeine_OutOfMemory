@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerAnimationController animController;
     private PlayerInput playerInputAsset;
+    private BlockParryController blockParryController;
 
     // Dodge tracking
     private bool isDodging = false;
@@ -23,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animController = GetComponent<PlayerAnimationController>();
+        blockParryController = GetComponent<BlockParryController>();
         playerInputAsset = new PlayerInput();
         playerInputAsset.Player.Enable();
     }
@@ -33,40 +35,37 @@ public class PlayerMovement : MonoBehaviour
         {
             // Dodge is active - ONLY apply dodge velocity with easing
             dodgeTimer += Time.fixedDeltaTime;
-
             // Calculate progress (0 to 1)
             float progress = Mathf.Clamp01(dodgeTimer / dodgeDuration);
-
             // Apply easing: starts FAST (1.0), ends SLOW (0.0)
             float easedValue = EaseOutQuad(progress);
             float currentSpeed = easedValue * dodgeSpeed;
-
             // Set velocity
             rb.linearVelocity = dodgeDirection * currentSpeed;
-
             // Check if dodge is finished
             if (dodgeTimer >= dodgeDuration)
             {
                 isDodging = false;
                 rb.linearVelocity = Vector2.zero;
-
                 // Read the current input state directly
                 moveInput = playerInputAsset.Player.Move.ReadValue<Vector2>();
             }
         }
-        else
+        else if (blockParryController.isBlocking)  // MOVE THIS UP - CHECK BLOCK SECOND
+        {
+            rb.linearVelocity = Vector2.zero;  // Lock movement while blocking
+        }
+        else if (!animController.IsAttacking() && !animController.IsThrowing())
         {
             // Normal movement
-            if (!animController.IsAttacking() && !animController.IsThrowing())
-            {
-                Vector2 movement = moveInput * moveSpeed;
-                rb.linearVelocity = movement;
-                animController.SetMovementAnimation(moveInput);
-            }
-            else
-            {
-                rb.linearVelocity = Vector2.zero;
-            }
+            Vector2 movement = moveInput * moveSpeed;
+            rb.linearVelocity = movement;
+            animController.SetMovementAnimation(moveInput);
+        }
+        else
+        {
+            // Stop movement when attacking or throwing
+            rb.linearVelocity = Vector2.zero;
         }
     }
 
@@ -88,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
     public void OnAttack(InputValue value)
     {
         // Can't attack while dodging
-        if (isDodging)
+        if (isDodging || blockParryController.isBlocking)
             return;
 
         if (!animController.IsAttacking() && !animController.IsThrowing())
@@ -104,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
             return;
 
         // Can't dodge if already dodging or if no movement input
-        if (isDodging || moveInput.magnitude < 0.1f)
+        if (isDodging || moveInput.magnitude < 0.1f || blockParryController.isBlocking)
             return;
 
         // Prevent dodge during attack/ throw
@@ -122,12 +121,32 @@ public class PlayerMovement : MonoBehaviour
     public void OnThrow(InputValue value)
     {
         // Can't throw while dodging
-        if (isDodging)
+        if (isDodging || blockParryController.isBlocking)
             return;
 
         if (!animController.IsAttacking() && !animController.IsThrowing())
         {
             animController.TriggerThrow();
+        }
+    }
+
+    public void OnBlock(InputValue value)
+    {
+        // Only block if not already attacking, throwing, or dodging
+        if (animController.IsAttacking() || animController.IsThrowing() || isDodging)
+            return;
+
+        Debug.Log("OnBlock called - isPressed: " + value.isPressed);
+
+        if (value.isPressed)
+        {
+            Debug.Log("Block PRESSED");
+            blockParryController.StartBlock();
+        }
+        else
+        {
+            Debug.Log("Block RELEASED");
+            blockParryController.EndBlock();
         }
     }
 

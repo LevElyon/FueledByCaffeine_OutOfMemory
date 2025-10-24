@@ -97,6 +97,26 @@ public class PlayerAnimationController : MonoBehaviour
         GetComponent<PlayerAttackHitbox>().DeactivateHitbox();
     }
 
+    public void TriggerBlock()
+    {
+        animator.SetBool("IsBlocking", true);
+    }
+
+    public void StopBlock()
+    {
+        animator.SetBool("IsBlocking", false);
+    }
+
+    public void TriggerParry()
+    {
+        animator.SetTrigger("IsParrying");
+    }
+
+    public void OnParryEnd()
+    {
+        GetComponent<BlockParryController>().OnParryEnd();
+    }
+
     // Getters
     public bool IsAttacking() { return isAttacking; }
     public bool IsDodging() { return isDodging; }

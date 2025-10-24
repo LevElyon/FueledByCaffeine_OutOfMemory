@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 827113116}
   - component: {fileID: 827113120}
   - component: {fileID: 827113121}
+  - component: {fileID: 827113122}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -461,6 +462,23 @@ MonoBehaviour:
   hitboxOffset: {x: 2, y: 0}
   hitboxSize: {x: 6, y: 7}
   showHitboxDebug: 1
+--- !u!114 &827113122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827113112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86a253b9d109d2d46bd7fe207e5654b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlockParryController
+  isBlocking: 0
+  isParrying: 0
+  blockDamageReduction: 0.5
+  parryDamageReduction: 0
+  parryWindowDuration: 0.3
 --- !u!1 &1207470083
 GameObject:
   m_ObjectHideFlags: 0
