@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_dodge
+  m_Name: Player_parry
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,21 +21,15 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 3612415459798058412, guid: fc71891d86387824f869c2187dabb79d, type: 3}
-    - time: 0.15
-      value: {fileID: -991517658177425627, guid: fc71891d86387824f869c2187dabb79d, type: 3}
-    - time: 0.28333333
-      value: {fileID: -8695041237647524109, guid: fc71891d86387824f869c2187dabb79d, type: 3}
-    - time: 0.43333334
-      value: {fileID: 1620906850186967154, guid: fc71891d86387824f869c2187dabb79d, type: 3}
-    - time: 0.56666666
-      value: {fileID: -3408033279558330246, guid: fc71891d86387824f869c2187dabb79d, type: 3}
-    - time: 0.71666664
-      value: {fileID: 496884101541447046, guid: fc71891d86387824f869c2187dabb79d, type: 3}
-    - time: 0.85
-      value: {fileID: 8230215878261742219, guid: fc71891d86387824f869c2187dabb79d, type: 3}
+      value: {fileID: -5260934179070348812, guid: 96e91532b96d50a49b0dac9c6df85f00, type: 3}
+    - time: 0.25
+      value: {fileID: 2587567485119799564, guid: 96e91532b96d50a49b0dac9c6df85f00, type: 3}
+    - time: 0.5
+      value: {fileID: -4060323129446482471, guid: 96e91532b96d50a49b0dac9c6df85f00, type: 3}
+    - time: 0.75
+      value: {fileID: 8227205101749596337, guid: 96e91532b96d50a49b0dac9c6df85f00, type: 3}
     - time: 1
-      value: {fileID: 3903784955187578762, guid: fc71891d86387824f869c2187dabb79d, type: 3}
+      value: {fileID: -800596552848658669, guid: 96e91532b96d50a49b0dac9c6df85f00, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -58,14 +52,11 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 3612415459798058412, guid: fc71891d86387824f869c2187dabb79d, type: 3}
-    - {fileID: -991517658177425627, guid: fc71891d86387824f869c2187dabb79d, type: 3}
-    - {fileID: -8695041237647524109, guid: fc71891d86387824f869c2187dabb79d, type: 3}
-    - {fileID: 1620906850186967154, guid: fc71891d86387824f869c2187dabb79d, type: 3}
-    - {fileID: -3408033279558330246, guid: fc71891d86387824f869c2187dabb79d, type: 3}
-    - {fileID: 496884101541447046, guid: fc71891d86387824f869c2187dabb79d, type: 3}
-    - {fileID: 8230215878261742219, guid: fc71891d86387824f869c2187dabb79d, type: 3}
-    - {fileID: 3903784955187578762, guid: fc71891d86387824f869c2187dabb79d, type: 3}
+    - {fileID: -5260934179070348812, guid: 96e91532b96d50a49b0dac9c6df85f00, type: 3}
+    - {fileID: 2587567485119799564, guid: 96e91532b96d50a49b0dac9c6df85f00, type: 3}
+    - {fileID: -4060323129446482471, guid: 96e91532b96d50a49b0dac9c6df85f00, type: 3}
+    - {fileID: 8227205101749596337, guid: 96e91532b96d50a49b0dac9c6df85f00, type: 3}
+    - {fileID: -800596552848658669, guid: 96e91532b96d50a49b0dac9c6df85f00, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -92,7 +83,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 1
-    functionName: OnDodgeComplete
+    functionName: OnParryEnd
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
