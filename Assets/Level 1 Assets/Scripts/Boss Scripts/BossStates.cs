@@ -19,7 +19,7 @@ public class BossStatesChase1 : BossStates
 {
     public BossStatesChase1(BossHandler bossHandler) : base(bossHandler)
     {
-        
+        bossHandler.bossAnims.SetBool("DoAttack", false);
     }
     public override void DoUpdate(float dTime)
     {
@@ -49,17 +49,33 @@ public class BossStatesChase1 : BossStates
 public class BossStatesStalk1 : BossStates 
 {
     private float stalkingDur;
+    private float checkTracker;
     public BossStatesStalk1(BossHandler bossHandler) : base(bossHandler)
     {
         stalkingDur = 0;
+        checkTracker = 0;
     }
     public override void DoUpdate(float dTime)
     {
         stalkingDur += Time.deltaTime;
+        checkTracker += Time.fixedDeltaTime;
+        Vector2 targetPos = bossScript.playerPos();
 
         if (bossScript.CheckStagger())
         {
             bossScript.SetCurrentState(new BossStatesStun1(bossScript));
+        }
+
+        if (stalkingDur <= 2 && checkTracker >= 0.5f)
+        {
+            if (Vector2.Distance(bossScript.playerPos(), bossScript.currentPos()) <= 5)
+            {
+                bossScript.MoveAwayFromPlayer(dTime, targetPos, bossScript.moveSpeed);
+            }
+            else
+            {
+                bossScript.MoveTowards(dTime, targetPos, bossScript.moveSpeed);
+            }
         }
 
         if (stalkingDur >= 2)
@@ -85,7 +101,7 @@ public class BossStatesAttack1 : BossStates
 {
     public BossStatesAttack1(BossHandler bossHandler) : base(bossHandler)
     {
-        
+        bossHandler.bossAnims.SetBool("DoAttack", true);
     }
     public override void DoUpdate(float dTime)
     {
@@ -94,10 +110,11 @@ public class BossStatesAttack1 : BossStates
             bossScript.SetCurrentState(new BossStatesStun1(bossScript));
         }
 
-        bool isAttacking = bossScript.CheckIsAttacking();
+        bool canAttack = bossScript.CheckIsAttacking();
 
-        if (!isAttacking)
+        if (canAttack)
         {
+            //Add check for whether currently performing an attack animation
             if (bossScript.CheckPlayerWithinAttackRange())
             {
                 bossScript.DoAttackPhase1(1);
@@ -130,7 +147,7 @@ public class BossStatesStun1 : BossStates
 
         if (stunDur >= stunMax)
         {
-            bossScript.SetCurrentState(new BossStatesStalk1(bossScript));
+            bossScript.SetCurrentState(new BossStatesChase1(bossScript));
         }
     }
 
