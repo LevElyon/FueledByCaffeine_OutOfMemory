@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1174538283ac0b64e849633d76ceca4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestBoss
-  baseDamage: 25
+  baseDamage: 100
   attackCooldown: 5
 --- !u!4 &179610476
 Transform:
@@ -355,12 +355,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 6
-  m_Sprite: {fileID: 4723107735738678597, guid: 2c223c4238cf1884587513328bd12623, type: 3}
+  m_Sprite: {fileID: -2917795296415379658, guid: ef60bbec8c18a9c48a1c55c4c54d39c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.45, y: 0.61}
+  m_Size: {x: 1.5415053, y: 2.0900002}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -431,8 +431,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.45, y: 0.61}
-    newSize: {x: 0.45, y: 0.61}
+    oldSize: {x: 0.44552177, y: 0.6040463}
+    newSize: {x: 1.5415053, y: 2.0900002}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
