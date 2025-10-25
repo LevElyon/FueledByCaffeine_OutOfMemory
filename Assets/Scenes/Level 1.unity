@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1174538283ac0b64e849633d76ceca4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestBoss
-  baseDamage: 100
+  baseDamage: 25
   attackCooldown: 5
 --- !u!4 &179610476
 Transform:
