@@ -5,12 +5,12 @@ public class DashPositions : MonoBehaviour
     public Transform startPos;
     public Transform endPos;
     
-    public Transform GetStartPos()
+    public Vector2 GetStartPos()
     {
-        return startPos;
+        return startPos.position;
     }
-    public Transform GetEndPos()
+    public Vector2 GetEndPos()
     {
-        return endPos;
+        return endPos.position;
     }
 }
