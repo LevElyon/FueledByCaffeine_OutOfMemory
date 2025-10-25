@@ -133,9 +133,6 @@ GameObject:
 =======
   - component: {fileID: 8378813}
   - component: {fileID: 8378814}
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
   m_Layer: 0
   m_Name: BottomRightBoundary
@@ -834,10 +831,7 @@ Transform:
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 =======
-=======
->>>>>>> Stashed changes
 --- !u!1 &752281563
 GameObject:
   m_ObjectHideFlags: 0
@@ -2091,10 +2085,7 @@ BoxCollider2D:
   m_Size: {x: 100, y: 10}
   m_EdgeRadius: 0
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 =======
-=======
->>>>>>> Stashed changes
 --- !u!1 &1524160833
 GameObject:
   m_ObjectHideFlags: 0
@@ -2530,10 +2521,7 @@ Transform:
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 =======
-=======
->>>>>>> Stashed changes
 --- !u!1 &1803850793
 GameObject:
   m_ObjectHideFlags: 0
@@ -2878,11 +2866,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
   m_LocalPosition: {x: 0, y: 26.3954, z: 0}
-=======
-  m_LocalPosition: {x: -1.2, y: 15, z: 0}
->>>>>>> Stashed changes
 =======
   m_LocalPosition: {x: -1.2, y: 15, z: 0}
 >>>>>>> Stashed changes
@@ -3288,7 +3272,4 @@ SceneRoots:
   - {fileID: 411831450}
   - {fileID: 703032302}
   - {fileID: 2136920042}
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
