@@ -2,41 +2,47 @@ using UnityEngine;
 
 public class TestBoss : MonoBehaviour
 {
-    private BlockParryController playerBlockParry;
+    private PlayerBlockParryController playerBlockParry;
+    private PlayerHealthController playerHealth;
+    private PlayerMovement playerMovement;
+    private Transform playerTransform;
+
+    [Header("Attack Settings")]
+    public float baseDamage = 20f; // Base damage per attack
+    public float attackCooldown = 3f; // Attack every 3 seconds
+
     private float attackTimer = 0f;
-    public float attackCooldown = 3f; // Attack every 3 seconds (to fit countdown)
-    private bool countdown3Logged = false;
-    private bool countdown2Logged = false;
     private bool countdown1Logged = false;
 
     void Start()
     {
-        playerBlockParry = FindFirstObjectByType<BlockParryController>();
+        playerBlockParry = FindFirstObjectByType<PlayerBlockParryController>();
+        playerHealth = FindFirstObjectByType<PlayerHealthController>();
+        playerMovement = FindFirstObjectByType<PlayerMovement>();
+        playerTransform = FindFirstObjectByType<PlayerMovement>().transform;
+
+#if UNITY_EDITOR
+        if (playerBlockParry == null)
+            Debug.LogError("TestBoss: PlayerBlockParryController not found!");
+        if (playerHealth == null)
+            Debug.LogError("TestBoss: PlayerHealthController not found!");
+        if (playerMovement == null)
+            Debug.LogError("TestBoss: PlayerMovement not found!");
+        if (playerTransform == null)
+            Debug.LogError("TestBoss: Player Transform not found!");
+#endif
     }
 
     void Update()
     {
         attackTimer += Time.deltaTime;
 
-        // Clear console and start new countdown cycle
-        if (attackTimer >= attackCooldown - 3.1f && !countdown3Logged)
-        {
-            Debug.ClearDeveloperConsole();  // Clear previous logs
-            Debug.Log("3...");
-            countdown3Logged = true;
-        }
-
-        // Countdown: 2 seconds before attack
-        if (attackTimer >= attackCooldown - 2f && !countdown2Logged)
-        {
-            Debug.Log("2...");
-            countdown2Logged = true;
-        }
-
         // Countdown: 1 second before attack
         if (attackTimer >= attackCooldown - 1f && !countdown1Logged)
         {
+#if UNITY_EDITOR
             Debug.Log("1...");
+#endif
             countdown1Logged = true;
         }
 
@@ -45,31 +51,67 @@ public class TestBoss : MonoBehaviour
         {
             PerformAttack();
             attackTimer = 0f;
-            countdown3Logged = false;
-            countdown2Logged = false;
             countdown1Logged = false;
         }
     }
 
     void PerformAttack()
     {
+#if UNITY_EDITOR
         Debug.Log(">> BOSS ATTACKING NOW! <<");
+#endif
 
-        if (playerBlockParry != null)
+        if (playerBlockParry == null || playerHealth == null)
         {
-            // Check if player parried
-            if (playerBlockParry.CheckParry())
+#if UNITY_EDITOR
+            Debug.LogError("Boss: Missing player references!");
+#endif
+            return;
+        }
+
+        // Check if player parried
+        if (playerBlockParry.CheckParry())
+        {
+#if UNITY_EDITOR
+            Debug.Log("SUCCESS - PARRIED! Player took no damage!");
+#endif
+            return;
+        }
+
+        // Calculate knockback direction (away from boss towards player)
+        Vector2 knockbackDirection = (playerTransform.position - transform.position).normalized;
+
+        // Get damage multiplier based on block/parry state
+        float damageMultiplier = playerBlockParry.GetDamageReductionMultiplier();
+        float finalDamage = baseDamage * damageMultiplier;
+
+        // Deal damage - player handles knockback internally based on blocking state
+        if (playerHealth.TakeDamage(finalDamage, knockbackDirection))
+        {
+            // Damage was dealt (player wasn't invulnerable)
+            if (playerBlockParry.isBlocking)
             {
-                Debug.Log("SUCCESS - PARRIED! Player took no damage!");
-            }
-            else if (playerBlockParry.isBlocking)
-            {
-                Debug.Log("BLOCKED - Player takes 50% damage!");
+#if UNITY_EDITOR
+                Debug.Log($"BLOCKED - Player takes {finalDamage} damage (50% reduction)");
+#endif
             }
             else
             {
-                Debug.Log("HIT - Player takes full damage!");
+#if UNITY_EDITOR
+                Debug.Log($"HIT - Player takes {finalDamage} damage (full damage)");
+#endif
             }
         }
+        else
+        {
+            // Damage was blocked (player was invulnerable)
+#if UNITY_EDITOR
+            Debug.Log("HIT - But player is invulnerable!");
+#endif
+        }
+
+#if UNITY_EDITOR
+        Debug.Log($"Player health: {playerHealth.currentHealth}/{playerHealth.maxHealth}");
+#endif
     }
 }

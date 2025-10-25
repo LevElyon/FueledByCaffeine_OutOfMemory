@@ -5,7 +5,7 @@ using UnityEngine;
 /// Exposes simple flags that external systems (boss) can query.
 /// Follows the same architecture as PlayerAttackHitbox.cs
 /// </summary>
-public class BlockParryController : MonoBehaviour
+public class PlayerBlockParryController : MonoBehaviour
 {
     [Header("Block State Flags (Query These From Outside Systems)")]
     public bool isBlocking = false;           // Player is in blocking stance
@@ -23,11 +23,13 @@ public class BlockParryController : MonoBehaviour
     private bool parryAnimationPlaying = false;  // ADD THIS - tracks if parry animation is playing
 
     private PlayerAnimationController animController;
+    private PlayerStaminaController staminaController;
     private Animator animator;
 
     void Start()
     {
         animController = GetComponent<PlayerAnimationController>();
+        staminaController = GetComponent<PlayerStaminaController>();
         animator = GetComponent<Animator>();
     }
 
@@ -57,6 +59,13 @@ public class BlockParryController : MonoBehaviour
     public void StartBlock()
     {
         if (isBlocking) return; // Already blocking
+
+        // CHECK STAMINA BEFORE STARTING BLOCK
+        if (!staminaController.TryConsumeStamina(staminaController.blockStaminaCost))
+        {
+            Debug.Log("Not enough stamina to block!");
+            return;
+        }
 
         isBlocking = true;
         blockActive = true;
@@ -118,6 +127,12 @@ public class BlockParryController : MonoBehaviour
         isParrying = true;
         parryAnimationPlaying = true;  // ADD THIS
         blockActive = false;
+
+        // REFUND STAMINA ON SUCCESSFUL PARRY
+        // This incentivizes timing-based gameplay: risk blocking, reward with stamina refund on successful parry
+        staminaController.RefundStamina(staminaController.parryStaminaRefund);
+        Debug.Log("Parry successful! Refunded " + staminaController.parryStaminaRefund + " stamina");
+
         animController.TriggerParry();
     }
 
@@ -129,23 +144,17 @@ public class BlockParryController : MonoBehaviour
     /// </summary>
     public void OnParryEnd()
     {
-        UnityEngine.Debug.Log("OnParryEnd CALLED - resetting isParrying to false");
+        Debug.Log("OnParryEnd CALLED - Force returning to IDLE");
         isParrying = false;
-        parryAnimationPlaying = false;  // ADD THIS
+        parryAnimationPlaying = false;
+        isBlocking = false;  // ADD THIS - force block off
+        blockActive = false; // ADD THIS - force block window closed
         animator.SetBool("IsParrying", false);
+        animator.SetBool("IsBlocking", false); // ADD THIS - tell animator to go idle
 
-        if (isBlocking)
-        {
-            UnityEngine.Debug.Log("Still holding block, returning to Player_block");
-            blockActive = true;
-            parryActiveTime = 0f;
-            animController.TriggerBlock();
-        }
-        else
-        {
-            UnityEngine.Debug.Log("Block released, going to idle");
-            animController.StopBlock();
-        }
+        animController.StopBlock();
+
+        Debug.Log("Parry ended - player must press block again to defend");
     }
 
     // ========== STATE QUERIES (Use these for debugging/UI) ==========

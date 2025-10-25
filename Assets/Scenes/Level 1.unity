@@ -226,7 +226,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1174538283ac0b64e849633d76ceca4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestBoss
-  attackCooldown: 2
+  baseDamage: 100
+  attackCooldown: 5
 --- !u!4 &179610476
 Transform:
   m_ObjectHideFlags: 0
@@ -236,7 +237,7 @@ Transform:
   m_GameObject: {fileID: 179610474}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.88526, y: -4.23223, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -260,6 +261,9 @@ GameObject:
   - component: {fileID: 827113120}
   - component: {fileID: 827113121}
   - component: {fileID: 827113122}
+  - component: {fileID: 827113123}
+  - component: {fileID: 827113124}
+  - component: {fileID: 827113125}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -524,6 +528,62 @@ MonoBehaviour:
   blockDamageReduction: 0.5
   parryDamageReduction: 0
   parryWindowDuration: 0.3
+--- !u!114 &827113123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827113112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1136ed0c3ddcea34193c832772071686, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStaminaController
+  maxStamina: 100
+  currentStamina: 100
+  regenerationRate: 15
+  regenStartDelay: 1
+  blockStaminaCost: 10
+  parryStaminaRefund: 10
+  dodgeStaminaCost: 20
+  attackStaminaCost: 15
+  throwStaminaCost: 25
+--- !u!114 &827113124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827113112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e67559a22220fc448a9b10e80895751e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRecoveryController
+  attackRecovery: 0.6
+  throwRecovery: 0.6
+  dodgeRecovery: 0.6
+  blockRecovery: 0.5
+  hitstunDuration: 0.7
+--- !u!114 &827113125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827113112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c5408dd461aa54baafec55a322056c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthController
+  maxHealth: 100
+  currentHealth: 100
+  fullKnockbackDistance: 8
+  blockKnockbackDistance: 2
+  knockbackDuration: 0.3
+  invulnerabilityDuration: 1
 --- !u!1 &1207470083
 GameObject:
   m_ObjectHideFlags: 0
