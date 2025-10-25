@@ -1,5 +1,4 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
 
 public class BossHandler : MonoBehaviour
@@ -9,7 +8,7 @@ public class BossHandler : MonoBehaviour
     private float currentHP;
     private bool isPhase1 = true;
 
-    public float attackRange;
+    public float attackRange = 16f;
     public float stunDur = 1.5f;
     public float staggerMin = 0f;
     public float staggerMax = 100f;
@@ -19,11 +18,11 @@ public class BossHandler : MonoBehaviour
 
     private BossStates currentState;
     public Transform startPoint;
-    public Animator bossAnims;
-    public Collider2D leftSwing;
-    public Collider2D rightSwing;
+    //public Animator bossAnims;
 
-    public GameObject[] DashPaths;
+    public GameObject Line1;
+    public GameObject Line2;
+    public GameObject Line3;
 
     public PlayerMovement player;
 
@@ -35,10 +34,6 @@ public class BossHandler : MonoBehaviour
         currentHP = maxHP;
 
         currentState = new BossStatesChase1(this);
-        leftSwing.enabled = false;
-        rightSwing.enabled = false;
-
-        DoSlamAttack();
     }
 
     private void FixedUpdate()
@@ -73,10 +68,7 @@ public class BossHandler : MonoBehaviour
     //}
     public void MoveTowards(float dTime, Vector2 targetPos, float moveSpeed)
     {
-        if (bossAnims.GetCurrentAnimatorStateInfo(0).IsName("LSwing"))
-        {
-            bossAnims.Play("Idle");
-        }
+
         //move towards target position
         Vector2 direction = targetPos;
         direction.x -= this.transform.position.x;
@@ -93,31 +85,9 @@ public class BossHandler : MonoBehaviour
         }
     }
 
-    public void MoveAwayFromPlayer(float dTime, Vector2 targetPos, float moveSpeed)
-    {
-        Vector2 direction = targetPos;
-        direction.x += this.transform.position.x;
-        direction.y += this.transform.position.y;
-        Vector2 moveVector = direction.normalized * dTime * moveSpeed;
-        Vector2 finalPos = moveVector;
-        finalPos.x -= this.transform.position.x;
-        finalPos.y -= this.transform.position.y;
-        this.GetComponent<Rigidbody2D>().MovePosition(finalPos);
-
-        if (Vector2.Distance(targetPos, finalPos) < 0.2f)
-        {
-            currentState?.InRangePlayer();
-        }
-    }
-
     public Vector2 playerPos()
     {
         return player.transform.position;
-    }
-
-    public Vector2 currentPos()
-    {
-        return this.transform.position;
     }
 
     public void ResetStagger()
@@ -146,25 +116,14 @@ public class BossHandler : MonoBehaviour
         return (staggerMin >= staggerMax ? true : false);
     }
 
-    public void ResetAttackCD()
-    {
-        attackCD = 0;
-    }
-
     public bool CheckPlayerWithinAttackRange()
     {
-        float distance = Vector2.Distance(playerPos(), currentPos());
         //check player is within attack range
-        if (distance <= attackRange)
-        {
-            Debug.Log(distance);
-            Debug.Log("In range = true");
-            return true;
-        }
+        bool isInRange = (Vector2.Distance(player.gameObject.transform.position, this.transform.position) <= attackRange ? true : false);
+        Debug.Log(Vector2.Distance(player.gameObject.transform.position, this.transform.position));
+        Debug.Log("In range = " + isInRange);
 
-        Debug.Log(distance);
-        Debug.Log("In range = false");
-        return false;
+        return isInRange;
     }
 
     public bool CheckIsAttacking()
@@ -183,7 +142,8 @@ public class BossHandler : MonoBehaviour
         switch (type)
         {
             case (1):
-                bossAnims.Play("LSwing");
+
+                //bossAnims.Play("");
                 break;
             case (2):
                 //bossAnims.Play("");
@@ -192,29 +152,30 @@ public class BossHandler : MonoBehaviour
             default: return;
         }
 
-        ResetAttackCD();
     }
 
-    public void DoAttackPhase2(int number)
+    public void DoAttackPhase2(float type)
     {
+        Vector2 startPos;
         Debug.Log("Phase 2: Attack");
-        Vector2 startPos = DashPaths[number].GetComponent<DashPositions>().GetStartPos();
-        Vector2 endPos = DashPaths[number].GetComponent<DashPositions>().GetEndPos();
-        StartCoroutine(DashAttack(startPos, endPos));
-    }
+        switch (type)
+        {
+            case (1):
+                //bossAnims.Play("");
+                break;
+            case (2):
+                //bossAnims.Play("");
+                break;
 
-    public void DoSlamAttack()
-    {
-        Vector2 targetPos = playerPos();
-        Debug.Log("Starting attack");
-        StartCoroutine(DelayBySeconds(5));
-        Debug.Log("End attack");
+            default: return;
+        }
+
     }
 
     public void OnHit(float damage)
     {
         Debug.Log("Got hit by player for " + damage);
-
+        SoundManager.PlaySound(SoundType.BossHurt, 1);
 
         if (isPhase1)
         {
@@ -252,37 +213,8 @@ public class BossHandler : MonoBehaviour
         Destroy(this.gameObject, 2);
     }
 
-    public void ToggleLCollider()
-    {
-        leftSwing.enabled = !leftSwing.enabled;
-    }
-
-    public void ToggleRCollider()
-    {
-        rightSwing.enabled = !rightSwing.enabled;
-    }
-
     public IEnumerator LeftAttackPhase1()
     {
         yield return null;
-    }
-
-
-    public IEnumerator DashAttack(Vector2 start, Vector2 end)
-    {
-        MoveTowards(Time.deltaTime, start, moveSpeed * 2);
-        yield return new WaitForSeconds(2);
-        MoveTowards(Time.deltaTime, end, moveSpeed * 4);
-    }
-    public IEnumerator OccasionallyCheckInRangePlayer()
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        yield return CheckPlayerWithinAttackRange();
-    }
-
-    public IEnumerator DelayBySeconds(float time)
-    {
-        yield return new WaitForSecondsRealtime(time);
     }
 }

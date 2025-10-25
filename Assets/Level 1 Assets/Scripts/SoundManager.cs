@@ -1,15 +1,26 @@
 using UnityEngine;
 
 
+public enum SoundType 
+{ 
+    PlayerMove,
+    PlayerAttack,
+    PlayerDash,
+    PlayerParry,
+    PlayerHurt,
+    BossMove,
+    BossAttack,
+    BossHurt,
+
+}
+
+
+[RequireComponent(typeof(AudioSource))]
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] private AudioClip[] audios;
     public static SoundManager soundManager;
-    public AudioSource MusicSource;
-    public AudioSource SFXSource;
-
-    public AudioClip[] SoundEffects;
-    public AudioClip[] BGMusic;
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -18,16 +29,11 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
-    public static void PlaySFX(int index, float volume)
+    public static void PlaySound(SoundType sound, float volume)
     {
-        soundManager.SFXSource.PlayOneShot(soundManager.audios[index], volume);
-    }
-
-    public static void PlayBGM(int index, float volume)
-    {
-        soundManager.MusicSource.PlayOneShot(soundManager.BGMusic[index], volume);
+        soundManager.audioSource.PlayOneShot(soundManager.audios[(int)sound], volume);
     }
 }
