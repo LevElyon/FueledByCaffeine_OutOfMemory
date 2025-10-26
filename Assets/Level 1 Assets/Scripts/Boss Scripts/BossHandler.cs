@@ -7,6 +7,7 @@ public class BossHandler : MonoBehaviour
     public float moveSpeed = 5f;
     public float maxHP = 500;
     private float currentHP;
+    private int limbsBroken;
     private bool isPhase1 = true;
 
     public float attackRange;
@@ -22,10 +23,16 @@ public class BossHandler : MonoBehaviour
     public Animator bossAnims;
     public Collider2D leftSwing;
     public Collider2D rightSwing;
+    public Collider2D ramCollider;
 
     public GameObject[] DashPaths;
 
     public PlayerMovement player;
+    public Transform playerLeft;
+    public Transform playerRight;
+
+    public Transform leftBound;
+    public Transform rightBound;
 
     private void Start()
     {
@@ -33,10 +40,12 @@ public class BossHandler : MonoBehaviour
 
         attackCD = attackInt;
         currentHP = maxHP;
+        limbsBroken = 0;
 
         currentState = new BossStatesChase1(this);
         leftSwing.enabled = false;
         rightSwing.enabled = false;
+        ramCollider.enabled = false;
 
         DoSlamAttack();
     }
@@ -44,7 +53,10 @@ public class BossHandler : MonoBehaviour
     private void FixedUpdate()
     {
         currentState.DoUpdate(Time.fixedDeltaTime);
-        Debug.Log(GetCurrentState());
+        if (isPhase1 && limbsBroken >= 2)
+        {
+            isPhase1 = false;
+        }
     }
 
     public void SetCurrentState(BossStates state)
@@ -61,23 +73,13 @@ public class BossHandler : MonoBehaviour
     {
         attackCD += Time.deltaTime;
     }
-
-    //public void Initialize(PlayerMovement aplayer)
-    //{
-    //    this.transform.position = startPoint.position;
-
-    //    attackCD = attackInt;
-    //    currentHP = maxHP;
-
-    //    currentState = new BossStatesChase1(this);
-    //}
     public void MoveTowards(float dTime, Vector2 targetPos, float moveSpeed)
     {
-        if (bossAnims.GetCurrentAnimatorStateInfo(0).IsName("LSwing"))
+        if (bossAnims.GetCurrentAnimatorStateInfo(0).IsName(""))
         {
-            bossAnims.Play("Idle");
+            bossAnims.Play("");
         }
-        //move towards target position
+
         Vector2 direction = targetPos;
         direction.x -= this.transform.position.x;
         direction.y -= this.transform.position.y;
@@ -151,18 +153,16 @@ public class BossHandler : MonoBehaviour
         attackCD = 0;
     }
 
-    public bool CheckPlayerWithinAttackRange()
+    public bool CheckPlayerWithinAttackRange(Vector2 currentTargetPos)
     {
-        float distance = Vector2.Distance(playerPos(), currentPos());
+        float distance = Vector2.Distance(currentTargetPos, currentPos());
         //check player is within attack range
         if (distance <= attackRange)
         {
-            Debug.Log(distance);
             Debug.Log("In range = true");
             return true;
         }
 
-        Debug.Log(distance);
         Debug.Log("In range = false");
         return false;
     }
@@ -174,7 +174,16 @@ public class BossHandler : MonoBehaviour
 
     public bool CheckIsPlayerLeftSide()
     {
-        return ((player.transform.position.x < this.transform.position.x) ? true : false);
+        return ((player.transform.position.x <= this.transform.position.x) ? true : false);
+    }
+
+    public float SpaceToLeft()
+    {
+        return (playerLeft.position.x - leftBound.position.x);
+    }
+    public float SpaceToRight()
+    {
+        return (playerRight.position.x - rightBound.position.x);
     }
 
     public void DoAttackPhase1(float type)
@@ -183,7 +192,7 @@ public class BossHandler : MonoBehaviour
         switch (type)
         {
             case (1):
-                bossAnims.Play("LSwing");
+                bossAnims.Play("");
                 break;
             case (2):
                 //bossAnims.Play("");
@@ -218,14 +227,6 @@ public class BossHandler : MonoBehaviour
 
         if (isPhase1)
         {
-            if (currentHP - damage <= (maxHP / 2))
-            {
-                isPhase1 = false;
-                //Change current state to phase 2 attacks
-                currentHP -= damage;
-                return;
-            }
-
             currentHP -= damage;
             //currentState = new BossStatesStalk1(this);
             return;
@@ -262,23 +263,28 @@ public class BossHandler : MonoBehaviour
         rightSwing.enabled = !rightSwing.enabled;
     }
 
+    public void ToggleRamAttack()
+    {
+        ramCollider.enabled = !ramCollider.enabled;
+    }
+
     public IEnumerator LeftAttackPhase1()
     {
         yield return null;
     }
 
+    public IEnumerator RamAttack()
+    {
+        this.GetComponent<Rigidbody2D>().angularVelocity = 0;
+        yield return new WaitForSecondsRealtime(1f);
+        MoveTowards(Time.deltaTime, playerPos(), moveSpeed * 4);
+    }
 
     public IEnumerator DashAttack(Vector2 start, Vector2 end)
     {
         MoveTowards(Time.deltaTime, start, moveSpeed * 2);
         yield return new WaitForSeconds(2);
         MoveTowards(Time.deltaTime, end, moveSpeed * 4);
-    }
-    public IEnumerator OccasionallyCheckInRangePlayer()
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        yield return CheckPlayerWithinAttackRange();
     }
 
     public IEnumerator DelayBySeconds(float time)

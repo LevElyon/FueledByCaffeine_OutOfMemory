@@ -17,20 +17,30 @@ public abstract class BossStates
 
 public class BossStatesChase1 : BossStates 
 {
+    public Vector2 targetPos;
     public BossStatesChase1(BossHandler bossHandler) : base(bossHandler)
     {
-        bossHandler.bossAnims.SetBool("DoAttack", false);
+        bossHandler.bossAnims.SetBool("DoAttackLeft", false);
+        bossHandler.bossAnims.SetBool("DoAttackRight", false);
+        targetPos = bossHandler.playerPos();
     }
     public override void DoUpdate(float dTime)
     {
-        Vector2 targetPos = bossScript.playerPos();
-
         if (bossScript.CheckStagger())
         {
             bossScript.SetCurrentState(new BossStatesStun1(bossScript));
         }
 
-        if (bossScript.CheckPlayerWithinAttackRange())
+        if (bossScript.CheckIsPlayerLeftSide())
+        {
+            targetPos = bossScript.playerRight.position;
+        }
+        else
+        {
+            targetPos = bossScript.playerLeft.position;
+        }
+
+        if (bossScript.CheckPlayerWithinAttackRange(targetPos))
         {
             bossScript.SetCurrentState(new BossStatesAttack1(bossScript));
         }
@@ -50,10 +60,12 @@ public class BossStatesStalk1 : BossStates
 {
     private float stalkingDur;
     private float checkTracker;
+    private Vector2 targetPos;
     public BossStatesStalk1(BossHandler bossHandler) : base(bossHandler)
     {
         stalkingDur = 0;
         checkTracker = 0;
+        targetPos = bossScript.playerPos();
     }
     public override void DoUpdate(float dTime)
     {
@@ -64,6 +76,15 @@ public class BossStatesStalk1 : BossStates
         if (bossScript.CheckStagger())
         {
             bossScript.SetCurrentState(new BossStatesStun1(bossScript));
+        }
+
+        if (bossScript.CheckIsPlayerLeftSide())
+        {
+            targetPos = bossScript.playerRight.position;
+        }
+        else
+        {
+            targetPos = bossScript.playerLeft.position;
         }
 
         if (stalkingDur <= 2 && checkTracker >= 0.5f)
@@ -80,7 +101,7 @@ public class BossStatesStalk1 : BossStates
 
         if (stalkingDur >= 2)
         {
-            if (bossScript.CheckPlayerWithinAttackRange())
+            if (bossScript.CheckPlayerWithinAttackRange(targetPos))
             {
                 bossScript.SetCurrentState(new BossStatesAttack1(bossScript));
             }
@@ -99,9 +120,10 @@ public class BossStatesStalk1 : BossStates
     
 public class BossStatesAttack1 : BossStates 
 {
+    private Vector2 targetPos;
     public BossStatesAttack1(BossHandler bossHandler) : base(bossHandler)
     {
-        bossHandler.bossAnims.SetBool("DoAttack", true);
+        bossHandler.bossAnims.SetBool("DoAttackLeft", true);
     }
     public override void DoUpdate(float dTime)
     {
@@ -110,12 +132,21 @@ public class BossStatesAttack1 : BossStates
             bossScript.SetCurrentState(new BossStatesStun1(bossScript));
         }
 
+        if (bossScript.CheckIsPlayerLeftSide())
+        {
+            targetPos = bossScript.playerRight.position;
+        }
+        else
+        {
+            targetPos = bossScript.playerLeft.position;
+        }
+
         bool canAttack = bossScript.CheckIsAttacking();
 
         if (canAttack)
         {
             //Add check for whether currently performing an attack animation
-            if (bossScript.CheckPlayerWithinAttackRange())
+            if (bossScript.CheckPlayerWithinAttackRange(targetPos))
             {
                 bossScript.DoAttackPhase1(1);
             }

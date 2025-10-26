@@ -23,6 +23,7 @@ public class PlayerAttackHitbox : MonoBehaviour
         hitboxCollider.isTrigger = true;
         hitboxCollider.size = hitboxSize;
         hitboxCollider.enabled = false;
+        hitboxCollider.tag = "PlayerAttack";
     }
 
     /// <summary>
@@ -65,6 +66,7 @@ public class PlayerAttackHitbox : MonoBehaviour
     {
         return hitboxCollider.bounds;
     }
+
 
     void OnDrawGizmos()
     {

@@ -13,7 +13,9 @@ public class BossDamageColliders : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            //Player takes damage
+            Vector2 Dir = this.transform.position - collision.transform.position;
+            collision.GetComponent<PlayerHealthController>().TakeDamage(20, Dir.normalized);
+            Debug.Log("Hit player for 20 damage");
         }
     }
 }
