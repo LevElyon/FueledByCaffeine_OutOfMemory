@@ -137,10 +137,7 @@ public class BossStatesAttack1 : BossStates
 
         if (canAttack)
         {
-            //if (bossScript.bossAnims.GetCurrentAnimatorStateInfo(0).IsName("Left Swing") || bossScript.bossAnims.GetCurrentAnimatorStateInfo(0).IsName("Right Swing"))
-            //{
-            //    return;
-            //}
+            bossScript.SetBackToIdleAnim();
 
             if (bossScript.CheckIsPlayerLeftSide())
             {

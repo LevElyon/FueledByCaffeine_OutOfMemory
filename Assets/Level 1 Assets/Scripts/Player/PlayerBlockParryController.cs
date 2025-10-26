@@ -123,6 +123,7 @@ public class PlayerBlockParryController : MonoBehaviour
     /// </summary>
     private void ExecuteParry()
     {
+        Debug.Log("Executing parry");
         UnityEngine.Debug.Log("ExecuteParry() called - about to set isParrying to true and trigger animation");
         isParrying = true;
         parryAnimationPlaying = true;  // ADD THIS

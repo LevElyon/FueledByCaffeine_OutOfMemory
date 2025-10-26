@@ -162,11 +162,9 @@ public class BossHandler : MonoBehaviour
         //check player is within attack range
         if (distance <= attackRange)
         {
-            Debug.Log("In range = true");
             return true;
         }
 
-        Debug.Log("In range = false");
         return false;
     }
 

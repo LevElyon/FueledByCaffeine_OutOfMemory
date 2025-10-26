@@ -20,7 +20,6 @@ public class LimbsBreaking : MonoBehaviour
     {
         if (collision.CompareTag("PlayerAttack"))
         {
-            Debug.Log(parentObj.name);
             //Add method to get the player's attack damage
             this.TakeDamage(20);
             StartCoroutine(DamageFlash());
