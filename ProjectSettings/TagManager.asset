@@ -49,5 +49,8 @@ TagManager:
   - name: Main Body
     uniqueID: 3368927421
     locked: 0
+  - name: Top View (For level building)
+    uniqueID: 3100887733
+    locked: 0
   m_RenderingLayers:
   - Default

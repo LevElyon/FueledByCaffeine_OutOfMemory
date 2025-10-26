@@ -7,8 +7,15 @@ public class AttackColliders : MonoBehaviour
     {
         if (collision.GetComponent<PlayerHitboxScript>())
         {
-            Debug.Log("Hit player");
-            collision.GetComponent<PlayerHitboxScript>().TakeDamage(20, (collision.transform.position - this.transform.position).normalized);
+            if (collision.GetComponent<PlayerHitboxScript>().playerBlockParryController.CheckParry())
+            {
+                Debug.Log("Parried attack, 0 damage");
+                collision.GetComponent<PlayerHitboxScript>().TakeDamage(0, (collision.transform.position - this.transform.position).normalized);
+            }
+            else
+            {
+                collision.GetComponent<PlayerHitboxScript>().TakeDamage(20, (collision.transform.position - this.transform.position).normalized);
+            }
         }
     }
 }

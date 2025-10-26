@@ -25,6 +25,7 @@ public class PlayerBlockParryController : MonoBehaviour
     private PlayerAnimationController animController;
     private PlayerStaminaController staminaController;
     private Animator animator;
+    public BossHandler BossHandler;
 
     void Start()
     {
@@ -106,6 +107,7 @@ public class PlayerBlockParryController : MonoBehaviour
         if (isBlocking && blockActive && parryActiveTime < parryWindowDuration)
         {
             ExecuteParry();
+            BossHandler.IncreaseStagger(40);
             return true;
         }
 

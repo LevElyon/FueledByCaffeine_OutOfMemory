@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class BossStates 
@@ -26,7 +27,7 @@ public class BossStatesChase1 : BossStates
     }
     public override void DoUpdate(float dTime)
     {
-        if (bossScript.CheckStagger())
+        if (bossScript.canStun && bossScript.CheckStagger())
         {
             bossScript.SetCurrentState(new BossStatesStun1(bossScript));
         }
@@ -56,59 +57,27 @@ public class BossStatesChase1 : BossStates
     }
 }
 
-public class BossStatesStalk1 : BossStates 
+public class BossStatesIdle : BossStates 
 {
-    private float stalkingDur;
-    private float checkTracker;
-    private Vector2 targetPos;
-    public BossStatesStalk1(BossHandler bossHandler) : base(bossHandler)
+    private float idleDur;
+    private float maxIdle;
+    public BossStatesIdle(BossHandler bossHandler) : base(bossHandler)
     {
-        stalkingDur = 0;
-        checkTracker = 0;
-        targetPos = bossScript.playerPos();
+        idleDur = 0;
+        maxIdle = 2;
     }
     public override void DoUpdate(float dTime)
     {
-        stalkingDur += Time.deltaTime;
-        checkTracker += Time.fixedDeltaTime;
-        Vector2 targetPos = bossScript.playerPos();
-
-        if (bossScript.CheckStagger())
+        if (bossScript.canStun && bossScript.CheckStagger())
         {
             bossScript.SetCurrentState(new BossStatesStun1(bossScript));
         }
 
-        if (bossScript.CheckIsPlayerLeftSide())
-        {
-            targetPos = bossScript.playerRight.position;
-        }
-        else
-        {
-            targetPos = bossScript.playerLeft.position;
-        }
+        idleDur += Time.deltaTime;
 
-        if (stalkingDur <= 2 && checkTracker >= 0.5f)
+        if (idleDur >= maxIdle)
         {
-            if (Vector2.Distance(bossScript.playerPos(), bossScript.currentPos()) <= 5)
-            {
-                bossScript.MoveAwayFromPlayer(dTime, targetPos, bossScript.moveSpeed);
-            }
-            else
-            {
-                bossScript.MoveTowards(dTime, targetPos, bossScript.moveSpeed);
-            }
-        }
-
-        if (stalkingDur >= 2)
-        {
-            if (bossScript.CheckPlayerWithinAttackRange(targetPos))
-            {
-                bossScript.SetCurrentState(new BossStatesAttack1(bossScript));
-            }
-            else
-            {
-                bossScript.SetCurrentState(new BossStatesChase1(bossScript));
-            }
+            bossScript.SetCurrentState(new BossStateMoveToStart(bossScript));
         }
     }
 
@@ -127,7 +96,7 @@ public class BossStatesAttack1 : BossStates
     }
     public override void DoUpdate(float dTime)
     {
-        if (bossScript.CheckStagger())
+        if (bossScript.canStun && bossScript.CheckStagger())
         {
             bossScript.SetCurrentState(new BossStatesStun1(bossScript));
         }
@@ -208,6 +177,7 @@ public class BossStatesStun1 : BossStates
     private float stunMax;
     public BossStatesStun1(BossHandler bossHandler) : base(bossHandler)
     {
+        //Add stun animation
         stunDur = 0;
         stunMax = 3;
     }
@@ -217,30 +187,90 @@ public class BossStatesStun1 : BossStates
 
         if (stunDur >= stunMax)
         {
-            bossScript.SetCurrentState(new BossStatesChase1(bossScript));
+            bossScript.ResetStagger();
+            if (bossScript.isPhase1)
+            {
+                bossScript.SetCurrentState(new BossStatesChase1(bossScript));
+            }
+            else
+            {
+                bossScript.SetCurrentState(new BossStateMoveToStart(bossScript));
+            }
         }
     }
 
     public override void InRangePlayer()
     {
-        
+
     }
 }
 
-public class BossStatesAttack2 : BossStates 
+public class BossStateMoveToStart : BossStates 
 {
-    public BossStatesAttack2(BossHandler bossHandler) : base(bossHandler)
+    private int targetPos;
+    private Vector2 startPos;
+    public BossStateMoveToStart(BossHandler bossHandler) : base(bossHandler)
     {
-
+        bossScript.bossAnims.enabled = false;
+        targetPos = bossScript.CheckWhichLinePlayerIsOn();
+        bossScript.selectedPath = targetPos;
+        bossScript.DashPaths[targetPos].GetComponent<SpriteRenderer>().enabled = true;
+        startPos = bossScript.DashPaths[targetPos].GetComponent<DashPositions>().GetStartPos();
     }
 
     public override void DoUpdate(float dTime)
     {
-        
+        if (Vector2.Distance(bossScript.transform.position, startPos) <= 0.5f)
+        {
+            bossScript.SetCurrentState(new BossStateMoveToEnd(bossScript));
+        }
+        else
+        {
+            bossScript.MoveTowards(dTime, startPos, bossScript.moveSpeed * 4);
+        }
     }
-
     public override void InRangePlayer()
     {
-        
+
+    }
+}
+
+public class BossStateMoveToEnd : BossStates
+{
+    private int targetPos;
+    private Vector2 endPos;
+    public BossStateMoveToEnd(BossHandler bossHandler) : base(bossHandler)
+    {
+        targetPos = bossScript.selectedPath;
+        bossScript.bossAnims.enabled = false;
+        bossScript.DashPaths[targetPos].GetComponent<SpriteRenderer>().sprite = bossScript.dashingSprite;
+        if (!bossScript.CheckIsPlayerLeftSide())
+        {
+            bossScript.bossSprite.flipX = true;
+        }
+        else
+        {
+            bossScript.bossSprite.flipX = false;
+        }
+
+        endPos = bossScript.DashPaths[targetPos].GetComponent<DashPositions>().GetEndPos();
+    }
+
+    public override void DoUpdate(float dTime)
+    {
+
+        if (Vector2.Distance(bossScript.transform.position, endPos) <= 0.5f)
+        {
+            bossScript.EndDashAttack();
+            bossScript.SetCurrentState(new BossStatesIdle(bossScript));
+        }
+        else
+        {
+            bossScript.MoveTowards(dTime, endPos, bossScript.moveSpeed * 8);
+        }
+    }
+    public override void InRangePlayer()
+    {
+
     }
 }

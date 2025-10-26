@@ -1,29 +1,38 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BossHandler : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public float maxHP = 500;
-    private float currentHP;
+    public float maxHP = 100;
+    public float currentHP;
     private int limbsBroken;
-    private bool isPhase1 = true;
+    public bool isPhase1 = true;
 
     public float attackRange;
     public float stunDur = 1.5f;
     public float staggerMin = 0f;
     public float staggerMax = 100f;
+    public float stunCD;
+    public bool canStun;
+    public int selectedPath;
 
     private float attackCD;
     private float attackInt = 1.5f;
+    private float attackInt2 = 5f;
 
     private BossStates currentState;
     public Transform startPoint;
     public Animator bossAnims;
     public Collider2D leftSwing;
     public Collider2D rightSwing;
-    public Collider2D ramCollider;
+    public Collider2D ramColliderFront;
+    public Collider2D ramColliderBack;
+    public Collider2D mainBody;
+    public Collider2D bodyLeftCollider;
+    public Collider2D bodyRightCollider;
 
     public GameObject[] DashPaths;
 
@@ -35,6 +44,9 @@ public class BossHandler : MonoBehaviour
     public Transform rightBound;
     public SpriteRenderer bossSprite;
 
+    public Sprite defaultSprite;
+    public Sprite dashingSprite;
+
     private void Start()
     {
         this.transform.position = startPoint.position;
@@ -42,11 +54,18 @@ public class BossHandler : MonoBehaviour
         attackCD = attackInt;
         currentHP = maxHP;
         limbsBroken = 0;
+        foreach (GameObject s in DashPaths)
+        {
+            s.GetComponent<SpriteRenderer>().enabled = false;
+        }
 
         currentState = new BossStatesChase1(this);
         leftSwing.enabled = false;
         rightSwing.enabled = false;
-        ramCollider.enabled = false;
+        ramColliderFront.enabled = false;
+        ramColliderBack.enabled = false;
+        bodyLeftCollider.enabled = false;
+        bodyRightCollider.enabled = false;
 
         bossSprite.flipX = false;
         SetBackToIdleAnim();
@@ -55,11 +74,16 @@ public class BossHandler : MonoBehaviour
     private void FixedUpdate()
     {
         currentState.DoUpdate(Time.fixedDeltaTime);
+
         if (isPhase1 && limbsBroken >= 2)
         {
             isPhase1 = false;
+            mainBody.enabled = true;
+            SetCurrentState(new BossStateMoveToStart(this));
         }
 
+        canStun = (stunCD <= 0 ? true : false);
+        staggerMin -= (Time.deltaTime / 2);
     }
 
     public void SetCurrentState(BossStates state)
@@ -75,6 +99,22 @@ public class BossHandler : MonoBehaviour
     private void Update()
     {
         attackCD += Time.deltaTime;
+        stunCD -= Time.deltaTime;
+        Mathf.Clamp(stunCD, 0, 15);
+
+        if (!isPhase1)
+        {
+            if (bossSprite.flipX)
+            {
+                bodyRightCollider.enabled = true;
+                bodyLeftCollider.enabled = false;
+            }
+            else
+            {
+                bodyRightCollider.enabled = false;
+                bodyLeftCollider.enabled = true;
+            }
+        }
     }
     public void MoveTowards(float dTime, Vector2 targetPos, float moveSpeed)
     {
@@ -146,9 +186,14 @@ public class BossHandler : MonoBehaviour
         return (staggerMin >= staggerMax ? true : false);
     }
 
-    public void ResetAttackCD()
+    public void ResetStunCD()
     {
-        attackCD = 0;
+        stunCD = 15;
+    }
+
+    public void ResetAttackCD(int number)
+    {
+        attackCD = number;
     }
 
     public void BreakLimb()
@@ -171,6 +216,14 @@ public class BossHandler : MonoBehaviour
     public bool CheckIsAttacking()
     {
         if (attackCD >= attackInt)
+        {
+            return false;
+        }
+        else return true;
+    }
+    public bool CheckIsAttacking2()
+    {
+        if (attackCD >= attackInt2)
         {
             return false;
         }
@@ -213,26 +266,15 @@ public class BossHandler : MonoBehaviour
             default: return;
         }
 
-        ResetAttackCD();
-    }
-
-    public void DoAttackPhase2(int number)
-    {
-        Debug.Log("Phase 2: Attack");
-        Vector2 startPos = DashPaths[number].GetComponent<DashPositions>().GetStartPos();
-        Vector2 endPos = DashPaths[number].GetComponent<DashPositions>().GetEndPos();
-        StartCoroutine(DashAttack(startPos, endPos));
+        ResetAttackCD(0);
     }
 
     public void OnHit(float damage)
     {
-        Debug.Log("Got hit by player for " + damage);
-
-
         if (isPhase1)
         {
+            IncreaseStagger(damage);
             currentHP -= damage;
-            //currentState = new BossStatesStalk1(this);
             return;
         }
 
@@ -254,7 +296,20 @@ public class BossHandler : MonoBehaviour
 
     public void BossDies()
     {
-        Destroy(this.gameObject, 2);
+        EndDashAttack();
+        Destroy(this.gameObject, 1);
+    }
+
+    public void CheckFlip(bool toBool)
+    {
+        if (!toBool)
+        {
+            bossSprite.flipX = true;
+        }
+        else
+        {
+            bossSprite.flipX = false;
+        }
     }
 
     public void ToggleLCollider()
@@ -269,7 +324,12 @@ public class BossHandler : MonoBehaviour
 
     public void ToggleRamAttack()
     {
-        ramCollider.enabled = !ramCollider.enabled;
+        ramColliderFront.enabled = !ramColliderFront.enabled;
+    }
+
+    public void ToggleRamAttackBack()
+    {
+        ramColliderBack.enabled = !ramColliderBack.enabled;
     }
 
     public void FlipBoss()
@@ -317,7 +377,7 @@ public class BossHandler : MonoBehaviour
             default: break;
         }
 
-        ResetAttackCD();
+        ResetAttackCD(0);
     }
 
     public bool CheckLeftLimb()
@@ -337,11 +397,38 @@ public class BossHandler : MonoBehaviour
         bossAnims.SetBool("DoFrontRam", false);
     }
 
-    public IEnumerator DashAttack(Vector2 start, Vector2 end)
+    public int CheckWhichLinePlayerIsOn()
     {
-        MoveTowards(Time.deltaTime, start, moveSpeed * 2);
-        yield return new WaitForSeconds(2);
-        MoveTowards(Time.deltaTime, end, moveSpeed * 4);
+        
+        float Dist1 = Vector2.Distance(playerPos(), DashPaths[0].GetComponent<DashPositions>().GetMidPos());
+        float Dist2 = Vector2.Distance(playerPos(), DashPaths[1].GetComponent<DashPositions>().GetMidPos());
+        float Dist3 = Vector2.Distance(playerPos(), DashPaths[2].GetComponent<DashPositions>().GetMidPos());
+
+        if (Dist1 <= Dist2 && Dist1 <= Dist3)
+        {
+            return 0;
+        }
+
+        if (Dist2 <= Dist1 && Dist2 <= Dist3)
+        {
+            return 1;
+        }
+
+        if (Dist3 <= Dist1 && Dist3 <= Dist2)
+        {
+            return 2;
+        }
+
+        return 1;
+    }
+
+    public void EndDashAttack()
+    {
+        foreach (GameObject g in DashPaths)
+        {
+            g.GetComponent<SpriteRenderer>().enabled = false;
+            g.GetComponent<SpriteRenderer>().sprite = defaultSprite;
+        }
     }
 
     public IEnumerator DelayBySeconds(float time)
