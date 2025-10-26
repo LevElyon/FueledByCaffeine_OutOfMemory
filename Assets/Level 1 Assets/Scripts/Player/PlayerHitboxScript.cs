@@ -6,6 +6,6 @@ public class PlayerHitboxScript : MonoBehaviour
 
     public void TakeDamage(float damage, Vector2 Dir)
     {
-        playerHealthController.TakeDamage(damage, Dir);
+        playerHealthController.TakeDamage(damage, Dir * 2f);
     }
 }

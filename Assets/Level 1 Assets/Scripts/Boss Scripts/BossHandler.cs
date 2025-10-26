@@ -16,7 +16,7 @@ public class BossHandler : MonoBehaviour
     public float staggerMax = 100f;
 
     private float attackCD;
-    private float attackInt = 1f;
+    private float attackInt = 1.5f;
 
     private BossStates currentState;
     public Transform startPoint;
@@ -33,6 +33,7 @@ public class BossHandler : MonoBehaviour
 
     public Transform leftBound;
     public Transform rightBound;
+    public SpriteRenderer bossSprite;
 
     private void Start()
     {
@@ -47,7 +48,8 @@ public class BossHandler : MonoBehaviour
         rightSwing.enabled = false;
         ramCollider.enabled = false;
 
-        DoSlamAttack();
+        bossSprite.flipX = false;
+        SetBackToIdleAnim();
     }
 
     private void FixedUpdate()
@@ -57,6 +59,7 @@ public class BossHandler : MonoBehaviour
         {
             isPhase1 = false;
         }
+
     }
 
     public void SetCurrentState(BossStates state)
@@ -75,11 +78,6 @@ public class BossHandler : MonoBehaviour
     }
     public void MoveTowards(float dTime, Vector2 targetPos, float moveSpeed)
     {
-        if (bossAnims.GetCurrentAnimatorStateInfo(0).IsName(""))
-        {
-            bossAnims.Play("");
-        }
-
         Vector2 direction = targetPos;
         direction.x -= this.transform.position.x;
         direction.y -= this.transform.position.y;
@@ -153,6 +151,11 @@ public class BossHandler : MonoBehaviour
         attackCD = 0;
     }
 
+    public void BreakLimb()
+    {
+        limbsBroken += 1;
+    }
+
     public bool CheckPlayerWithinAttackRange(Vector2 currentTargetPos)
     {
         float distance = Vector2.Distance(currentTargetPos, currentPos());
@@ -169,7 +172,11 @@ public class BossHandler : MonoBehaviour
 
     public bool CheckIsAttacking()
     {
-        return (attackCD >= attackInt ? true : false);
+        if (attackCD >= attackInt)
+        {
+            return false;
+        }
+        else return true;
     }
 
     public bool CheckIsPlayerLeftSide()
@@ -189,13 +196,20 @@ public class BossHandler : MonoBehaviour
     public void DoAttackPhase1(float type)
     {
         Debug.Log("Phase 1: Attack");
+        if (CheckIsAttacking() == true)
+        {
+            return;
+        }
+
         switch (type)
         {
             case (1):
-                bossAnims.Play("");
+                bossAnims.SetBool("DoAttackLeft", true);
+                //bossAnims.Play("Left Swing");
                 break;
             case (2):
-                //bossAnims.Play("");
+                bossAnims.SetBool("DoAttackRight", true);
+                //bossAnims.Play("Right Swing");
                 break;
 
             default: return;
@@ -210,14 +224,6 @@ public class BossHandler : MonoBehaviour
         Vector2 startPos = DashPaths[number].GetComponent<DashPositions>().GetStartPos();
         Vector2 endPos = DashPaths[number].GetComponent<DashPositions>().GetEndPos();
         StartCoroutine(DashAttack(startPos, endPos));
-    }
-
-    public void DoSlamAttack()
-    {
-        Vector2 targetPos = playerPos();
-        Debug.Log("Starting attack");
-        StartCoroutine(DelayBySeconds(5));
-        Debug.Log("End attack");
     }
 
     public void OnHit(float damage)
@@ -268,16 +274,69 @@ public class BossHandler : MonoBehaviour
         ramCollider.enabled = !ramCollider.enabled;
     }
 
-    public IEnumerator LeftAttackPhase1()
+    public void FlipBoss()
     {
-        yield return null;
+        if (CheckIsPlayerLeftSide())
+        {
+            bossSprite.flipX = false;
+        }
+        else
+        {
+            bossSprite.flipX = true;
+        }
     }
 
-    public IEnumerator RamAttack()
+    public bool CanDoSlashAttack(int n)
     {
-        this.GetComponent<Rigidbody2D>().angularVelocity = 0;
-        yield return new WaitForSecondsRealtime(1f);
-        MoveTowards(Time.deltaTime, playerPos(), moveSpeed * 4);
+        switch (n) {
+            case (1):
+                return CheckLeftLimb();
+            case (2):
+                return CheckRightLimb();
+            default: return false;
+        }
+
+    }
+
+    public void RamAttack(float type)
+    {
+        Debug.Log("Phase 2: Attack");
+        if (CheckIsAttacking() == true)
+        {
+            return;
+        }
+
+        switch (type)
+        {
+            case (1):
+                bossAnims.SetBool("DoFrontRam", true);
+                break;
+
+            case (2):
+                bossAnims.SetBool("DoBackRam", true);
+                break;
+
+            default: break;
+        }
+
+        ResetAttackCD();
+    }
+
+    public bool CheckLeftLimb()
+    {
+        return (leftSwing != null ? true : false);
+    }
+
+    public bool CheckRightLimb()
+    {
+        return (rightSwing != null ? true : false);
+    }
+
+    public void SetBackToIdleAnim()
+    {
+        bossAnims.SetBool("DoAttackLeft", false);
+        bossAnims.SetBool("DoAttackRight", false);
+        bossAnims.SetBool("DoFrontRam", false);
     }
 
     public IEnumerator DashAttack(Vector2 start, Vector2 end)

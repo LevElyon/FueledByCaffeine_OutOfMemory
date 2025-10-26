@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class LimbsBreaking : MonoBehaviour
@@ -6,10 +7,13 @@ public class LimbsBreaking : MonoBehaviour
     public GameObject parentObj;
     public float Limb_Max_HP;
     public float Limb_Current_HP;
+    public SpriteRenderer[] LimbSprites;
+    private Color current;
 
     private void Start()
     {
         Limb_Current_HP = Limb_Max_HP;
+        current = LimbSprites[0].color;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -19,6 +23,7 @@ public class LimbsBreaking : MonoBehaviour
             Debug.Log(parentObj.name);
             //Add method to get the player's attack damage
             this.TakeDamage(20);
+            StartCoroutine(DamageFlash());
         }
     }
 
@@ -27,10 +32,24 @@ public class LimbsBreaking : MonoBehaviour
         if (Limb_Current_HP - damage <= 0)
         {
             Limb_Current_HP = 0;
+            bossHandler.BreakLimb();
             Destroy(parentObj);
         }
 
         Limb_Current_HP -= damage;
         bossHandler.OnHit(damage);
+    }
+
+    public IEnumerator DamageFlash()
+    {
+        foreach (SpriteRenderer s in LimbSprites)
+        {
+            s.color = Color.darkRed;
+        }
+        yield return new WaitForSecondsRealtime(0.3f);
+        foreach (SpriteRenderer s in LimbSprites)
+        {
+            s.color = current;
+        }
     }
 }

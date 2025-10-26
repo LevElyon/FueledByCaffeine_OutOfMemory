@@ -17,12 +17,12 @@ public abstract class BossStates
 
 public class BossStatesChase1 : BossStates 
 {
-    public Vector2 targetPos;
+    private Vector2 targetPos;
     public BossStatesChase1(BossHandler bossHandler) : base(bossHandler)
     {
-        bossHandler.bossAnims.SetBool("DoAttackLeft", false);
-        bossHandler.bossAnims.SetBool("DoAttackRight", false);
         targetPos = bossHandler.playerPos();
+        bossHandler.SetBackToIdleAnim();
+        Debug.Log("Change to chase state");
     }
     public override void DoUpdate(float dTime)
     {
@@ -123,7 +123,7 @@ public class BossStatesAttack1 : BossStates
     private Vector2 targetPos;
     public BossStatesAttack1(BossHandler bossHandler) : base(bossHandler)
     {
-        bossHandler.bossAnims.SetBool("DoAttackLeft", true);
+        bossHandler.SetBackToIdleAnim();
     }
     public override void DoUpdate(float dTime)
     {
@@ -132,27 +132,69 @@ public class BossStatesAttack1 : BossStates
             bossScript.SetCurrentState(new BossStatesStun1(bossScript));
         }
 
-        if (bossScript.CheckIsPlayerLeftSide())
-        {
-            targetPos = bossScript.playerRight.position;
-        }
-        else
-        {
-            targetPos = bossScript.playerLeft.position;
-        }
-
-        bool canAttack = bossScript.CheckIsAttacking();
+        bool canAttack = !bossScript.CheckIsAttacking();
+        Debug.Log("Can attack = " + canAttack);
 
         if (canAttack)
         {
-            //Add check for whether currently performing an attack animation
-            if (bossScript.CheckPlayerWithinAttackRange(targetPos))
+            //if (bossScript.bossAnims.GetCurrentAnimatorStateInfo(0).IsName("Left Swing") || bossScript.bossAnims.GetCurrentAnimatorStateInfo(0).IsName("Right Swing"))
+            //{
+            //    return;
+            //}
+
+            if (bossScript.CheckIsPlayerLeftSide())
             {
-                bossScript.DoAttackPhase1(1);
+                targetPos = bossScript.playerRight.position;
+                Debug.Log("Player is on left side");
+                if (bossScript.CanDoSlashAttack(1))
+                {
+                    if (bossScript.CheckPlayerWithinAttackRange(targetPos))
+                    {
+                        bossScript.DoAttackPhase1(1);
+                    }
+                    else
+                    {
+                        bossScript.SetCurrentState(new BossStatesChase1(bossScript));
+                    }
+                }
+                else
+                {
+                    if (bossScript.CheckPlayerWithinAttackRange(targetPos))
+                    {
+                        bossScript.RamAttack(1);
+                    }
+                    else
+                    {
+                        bossScript.SetCurrentState(new BossStatesChase1(bossScript));
+                    }
+                }
             }
-            else
+            else if (bossScript.CheckIsPlayerLeftSide() == false)
             {
-                bossScript.SetCurrentState(new BossStatesChase1(bossScript));
+                targetPos = bossScript.playerLeft.position;
+                Debug.Log("Player is on right side");
+                if (bossScript.CanDoSlashAttack(2))
+                {
+                    if (bossScript.CheckPlayerWithinAttackRange(targetPos))
+                    {
+                        bossScript.DoAttackPhase1(2);
+                    }
+                    else
+                    {
+                        bossScript.SetCurrentState(new BossStatesChase1(bossScript));
+                    }
+                }
+                else
+                {
+                    if (bossScript.CheckPlayerWithinAttackRange(targetPos))
+                    {
+                        bossScript.RamAttack(2);
+                    }
+                    else
+                    {
+                        bossScript.SetCurrentState(new BossStatesChase1(bossScript));
+                    }
+                }
             }
         }
     }
