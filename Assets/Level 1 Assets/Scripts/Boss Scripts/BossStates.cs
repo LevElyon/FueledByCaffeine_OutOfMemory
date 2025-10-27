@@ -258,6 +258,10 @@ public class BossStateMoveToEnd : BossStates
 
     public override void DoUpdate(float dTime)
     {
+        if (bossScript.canStun && bossScript.CheckStagger())
+        {
+            bossScript.SetCurrentState(new BossStatesStun1(bossScript));
+        }
 
         if (Vector2.Distance(bossScript.transform.position, endPos) <= 0.5f)
         {

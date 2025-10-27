@@ -79,6 +79,7 @@ public class BossHandler : MonoBehaviour
         {
             isPhase1 = false;
             mainBody.enabled = true;
+            staggerMax = 40;
             SetCurrentState(new BossStateMoveToStart(this));
         }
 
@@ -429,6 +430,11 @@ public class BossHandler : MonoBehaviour
             g.GetComponent<SpriteRenderer>().enabled = false;
             g.GetComponent<SpriteRenderer>().sprite = defaultSprite;
         }
+    }
+
+    public float BossHpPercent()
+    {
+        return currentHP / maxHP;
     }
 
     public IEnumerator DelayBySeconds(float time)
