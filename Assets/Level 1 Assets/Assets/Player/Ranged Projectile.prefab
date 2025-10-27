@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3438134738991934834}
-  - component: {fileID: 4164800009893114063}
+  - component: {fileID: 231582440430232507}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -25,20 +25,23 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1216768451011210223}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.2635858, w: 0.96463597}
+  m_LocalRotation: {x: 0, y: 0, z: 0.87035567, w: 0.49242356}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5184799460611468165}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30.566}
---- !u!136 &4164800009893114063
-CapsuleCollider:
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 121}
+--- !u!70 &231582440430232507
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1216768451011210223}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -47,14 +50,25 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.22206052
-  m_Height: 1.6802787
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.7, y: 0.2}
   m_Direction: 1
-  m_Center: {x: -0.026519775, y: 0.014088822, z: 0}
 --- !u!1 &8868430503527440500
 GameObject:
   m_ObjectHideFlags: 0
@@ -65,6 +79,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5184799460611468165}
   - component: {fileID: 5613833320886235168}
+  - component: {fileID: -5669141267438517451}
   m_Layer: 0
   m_Name: Ranged Projectile
   m_TagString: Untagged
@@ -80,14 +95,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8868430503527440500}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.86897725, w: 0.49485213}
-  m_LocalPosition: {x: -124.326485, y: 22.546576, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.87035567, w: 0.4924236}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3438134738991934834}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -120.68}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -121}
 --- !u!212 &5613833320886235168
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -146,3 +161,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-5669141267438517451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8868430503527440500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63388c80759996c49aa0b87d564c94f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerThrowProjectile
+  projectileSpeed: 5000
+  maxDistance: 10000

@@ -102,7 +102,7 @@ public class BossStatesAttack1 : BossStates
         }
 
         bool canAttack = !bossScript.CheckIsAttacking();
-        Debug.Log("Can attack = " + canAttack);
+        //Debug.Log("Can attack = " + canAttack);
 
         if (canAttack)
         {

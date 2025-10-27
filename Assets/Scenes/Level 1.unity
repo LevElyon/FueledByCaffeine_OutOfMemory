@@ -1105,7 +1105,7 @@ GameObject:
   - component: {fileID: 411831452}
   m_Layer: 7
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2446,6 +2446,7 @@ GameObject:
   - component: {fileID: 827113127}
   - component: {fileID: 827113126}
   - component: {fileID: 827113128}
+  - component: {fileID: 827113129}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -2769,6 +2770,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.45, y: 0.61}
   m_EdgeRadius: 0
+--- !u!114 &827113129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827113112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3976f66934a2de946be301ca8c9f8a6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerThrowProjectileManager
+  projectilePrefab: {fileID: 8868430503527440500, guid: 8ec27c7d39c78ed459070c37ee597360, type: 3}
+  spawnOffset: {x: 1.5, y: 0.5}
+  spawnDelayTime: 0
 --- !u!1 &852360698
 GameObject:
   m_ObjectHideFlags: 0

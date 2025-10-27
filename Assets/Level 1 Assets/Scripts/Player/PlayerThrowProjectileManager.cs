@@ -109,14 +109,24 @@ public class PlayerThrowProjectileManager : MonoBehaviour
 
         Vector3 spawnPos = transform.position + (Vector3)actualOffset;
 
-        // Instantiate projectile
-        GameObject projectileObj = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+        // Instantiate projectile, preserving the prefab's rotation (Z = -121 for correct orientation)
+        GameObject projectileObj = Instantiate(projectilePrefab, spawnPos, projectilePrefab.transform.rotation);
+
+        // Set sorting order so projectile appears on top
+        SpriteRenderer projectileSR = projectileObj.GetComponent<SpriteRenderer>();
+        if (projectileSR != null)
+        {
+            projectileSR.sortingOrder = 100;  // High sorting order to appear in front
+        }
+
+        Debug.Log($"Projectile spawned at position: {spawnPos}, Direction: {throwDirection}");
 
         // Initialize projectile with throw direction
         PlayerThrowProjectile projectile = projectileObj.GetComponent<PlayerThrowProjectile>();
         if (projectile != null)
         {
             projectile.Initialize(throwDirection);
+            Debug.Log($"Projectile initialized! Speed: {projectile.projectileSpeed}, MaxDistance: {projectile.maxDistance}");
         }
         else
         {
