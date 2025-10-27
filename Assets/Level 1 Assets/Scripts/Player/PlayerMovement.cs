@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float dodgeDuration = 1.0f;
 
     private Vector2 moveInput;
+    private Vector2 lastMoveDirection = Vector2.right;  // NEW: Track last move direction for throw projectiles
     private Rigidbody2D rb;
     private PlayerAnimationController animController;
     private PlayerInput playerInputAsset;
@@ -134,7 +135,19 @@ public class PlayerMovement : MonoBehaviour
         if (!isDodging && !isKnockedBack)
         {
             moveInput = value.Get<Vector2>();
+
+            // NEW: Track last non-zero direction for throw projectiles
+            if (moveInput.magnitude > 0.1f)
+            {
+                lastMoveDirection = moveInput.normalized;
+            }
         }
+    }
+
+    // NEW: Getter for last move direction (used by throw projectile system)
+    public Vector2 GetLastMoveDirection()
+    {
+        return lastMoveDirection;
     }
 
     public void OnAttack(InputValue value)
