@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isDodging = false;
     private float dodgeTimer = 0f;
     private Vector2 dodgeDirection;
+    public Collider2D playerHitbox;
 
     // Knockback tracking
     private bool isKnockedBack = false;
@@ -52,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        playerHitbox.enabled = !isDodging;
         // ADD THIS AT THE START
         if (animController.IsDead())
         {
@@ -259,6 +261,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         isDodging = true;
+        playerHitbox.enabled = false;
         dodgeTimer = 0f;
         dodgeDirection = moveInput.normalized;
         moveInput = Vector2.zero;

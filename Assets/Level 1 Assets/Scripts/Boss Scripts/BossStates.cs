@@ -64,7 +64,7 @@ public class BossStatesIdle : BossStates
     public BossStatesIdle(BossHandler bossHandler) : base(bossHandler)
     {
         idleDur = 0;
-        maxIdle = 2;
+        maxIdle = 1;
     }
     public override void DoUpdate(float dTime)
     {
@@ -270,7 +270,7 @@ public class BossStateMoveToEnd : BossStates
         }
         else
         {
-            bossScript.MoveTowards(dTime, endPos, bossScript.moveSpeed * 6);
+            bossScript.MoveTowards(dTime, endPos, bossScript.moveSpeed * 8);
         }
     }
     public override void InRangePlayer()

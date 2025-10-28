@@ -571,6 +571,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085165a5fb5b43c4383f6de22485744a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackColliders
+  damage: 0
+  PlayerBlockParryController: {fileID: 827113126}
 --- !u!1 &120700328
 GameObject:
   m_ObjectHideFlags: 0
@@ -1571,6 +1573,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085165a5fb5b43c4383f6de22485744a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackColliders
+  damage: 0
+  PlayerBlockParryController: {fileID: 827113126}
 --- !u!1 &507715743
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,6 +1666,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085165a5fb5b43c4383f6de22485744a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackColliders
+  damage: 0
+  PlayerBlockParryController: {fileID: 827113126}
 --- !u!1 &520096808
 GameObject:
   m_ObjectHideFlags: 0
@@ -2278,6 +2284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085165a5fb5b43c4383f6de22485744a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackColliders
+  damage: 0
+  PlayerBlockParryController: {fileID: 827113126}
 --- !u!1 &701192480
 GameObject:
   m_ObjectHideFlags: 0
@@ -2803,6 +2811,7 @@ MonoBehaviour:
   moveSpeed: 25
   dodgeSpeed: 25
   dodgeDuration: 1
+  playerHitbox: {fileID: 1826556154}
 --- !u!50 &827113119
 Rigidbody2D:
   serializedVersion: 5
@@ -2932,7 +2941,7 @@ MonoBehaviour:
   isParrying: 0
   blockDamageReduction: 0.5
   parryDamageReduction: 0
-  parryWindowDuration: 1
+  parryWindowDuration: 0.3
   BossHandler: {fileID: 411831447}
   SoundManager: {fileID: 2077252453}
   playerHealthController: {fileID: 827113125}
@@ -3642,7 +3651,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 30
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3688,10 +3697,10 @@ MonoBehaviour:
   player: {fileID: 827113113}
   smoothSpeed: 1
   offset: {x: 0, y: 0, z: -10}
-  minX: -21
-  maxX: 21
-  minY: -12
-  maxY: 12
+  minX: -42.5
+  maxX: 42.5
+  minY: -15
+  maxY: 15
 --- !u!114 &1207470088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3827,6 +3836,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085165a5fb5b43c4383f6de22485744a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackColliders
+  damage: 0
+  PlayerBlockParryController: {fileID: 827113126}
 --- !u!1 &1368044742
 GameObject:
   m_ObjectHideFlags: 0
@@ -3981,6 +3992,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085165a5fb5b43c4383f6de22485744a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackColliders
+  damage: 0
+  PlayerBlockParryController: {fileID: 827113126}
 --- !u!61 &1440336779
 BoxCollider2D:
   m_ObjectHideFlags: 0
