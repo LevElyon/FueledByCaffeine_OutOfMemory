@@ -476,6 +476,8 @@ MonoBehaviour:
   sceneName: Level1
   PlayerHealthController: {fileID: 827113125}
   PlayerHP: {fileID: 59386795}
+  PlayerStaminaController: {fileID: 827113123}
+  PlayerStamina: {fileID: 479651342}
   bossHandler: {fileID: 411831447}
   BossHP: {fileID: 1025224585}
 --- !u!1 &120642208
@@ -1066,7 +1068,7 @@ GameObject:
   - component: {fileID: 383487153}
   m_Layer: 7
   m_Name: Left Arm
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1122,6 +1124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f735af1c61f1a141a047a44558755d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossHandler
+  SoundManager: {fileID: 2077252453}
   moveSpeed: 8
   maxHP: 500
   currentHP: 0
@@ -1260,6 +1263,95 @@ Transform:
   - {fileID: 93598378}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &479651340
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 479651341}
+  - component: {fileID: 479651342}
+  m_Layer: 5
+  m_Name: Player Stamina Slider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &479651341
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479651340}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.79999995, y: 0.79999995, z: 0.79999995}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 999921680}
+  - {fileID: 873547427}
+  m_Father: {fileID: 1789451768}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 152.1, y: 447.8}
+  m_SizeDelta: {x: 675.8174, y: 100}
+  m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &479651342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479651340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 0
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 0
+  m_TargetGraphic: {fileID: 0}
+  m_FillRect: {fileID: 999921680}
+  m_HandleRect: {fileID: 0}
+  m_Direction: 0
+  m_MinValue: 0
+  m_MaxValue: 1
+  m_WholeNumbers: 0
+  m_Value: 1
+  m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &490712198
 GameObject:
   m_ObjectHideFlags: 0
@@ -1352,10 +1444,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainBodyCollider
   bossHandler: {fileID: 411831447}
-  Body_HP: 60
-  current_HP: 60
+  Body_HP: 300
+  current_HP: 300
   damageCollider: {fileID: 490712200}
   thisSprite: {fileID: 544453803}
+  soundManager: {fileID: 2077252453}
 --- !u!1 &491627506
 GameObject:
   m_ObjectHideFlags: 0
@@ -1711,7 +1804,7 @@ GameObject:
   - component: {fileID: 544453804}
   m_Layer: 7
   m_Name: Main Body
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1826,7 +1919,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.1352979}
+  m_Offset: {x: -0.15742159, y: -0.30958647}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1836,7 +1929,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 6.65, y: 3.2094042}
+  m_Size: {x: 5.345647, y: 2.6809173}
   m_EdgeRadius: 0
 --- !u!1 &635508472
 GameObject:
@@ -2322,6 +2415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LimbsBreaking
   bossHandler: {fileID: 411831447}
   parentObj: {fileID: 2030640660}
+  SoundManager: {fileID: 2077252453}
   Limb_Max_HP: 100
   Limb_Current_HP: 100
   LimbSprites:
@@ -2692,6 +2786,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2c1c36e26aebe644a77ed5b5f692a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationController
+  SoundManager: {fileID: 2077252453}
+  playerHealthController: {fileID: 827113125}
 --- !u!114 &827113117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2704,7 +2800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc62da43f3e3094183348affc8a67f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 15
+  moveSpeed: 25
   dodgeSpeed: 25
   dodgeDuration: 1
 --- !u!50 &827113119
@@ -2838,6 +2934,8 @@ MonoBehaviour:
   parryDamageReduction: 0
   parryWindowDuration: 1
   BossHandler: {fileID: 411831447}
+  SoundManager: {fileID: 2077252453}
+  playerHealthController: {fileID: 827113125}
 --- !u!114 &827113127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2989,6 +3087,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 852360698}
   m_CullTransparentMesh: 1
+--- !u!1 &873547426
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 873547427}
+  - component: {fileID: 873547429}
+  - component: {fileID: 873547428}
+  m_Layer: 5
+  m_Name: HP Bar Box
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &873547427
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873547426}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 479651341}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 501, y: 25}
+  m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &873547428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873547426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -4544989414328793057, guid: 649ee12e2ab673248869558e58f9f1bc, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &873547429
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873547426}
+  m_CullTransparentMesh: 1
 --- !u!1 &908389714
 GameObject:
   m_ObjectHideFlags: 0
@@ -3020,6 +3193,81 @@ Transform:
   m_Children: []
   m_Father: {fileID: 356370661}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &999921679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 999921680}
+  - component: {fileID: 999921682}
+  - component: {fileID: 999921681}
+  m_Layer: 5
+  m_Name: Stamina Bar Fill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &999921680
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999921679}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.72, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 479651341}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 4.5, y: 0.14994049}
+  m_SizeDelta: {x: 0, y: -75.3}
+  m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &999921681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999921679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 8089458403076351251, guid: 649ee12e2ab673248869558e58f9f1bc, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &999921682
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999921679}
+  m_CullTransparentMesh: 1
 --- !u!1 &1006934201
 GameObject:
   m_ObjectHideFlags: 0
@@ -3129,7 +3377,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 682153789}
   m_HandleRect: {fileID: 0}
@@ -3278,6 +3526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LimbsBreaking
   bossHandler: {fileID: 411831447}
   parentObj: {fileID: 383487151}
+  SoundManager: {fileID: 2077252453}
   Limb_Max_HP: 100
   Limb_Current_HP: 100
   LimbSprites:
@@ -4652,6 +4901,7 @@ RectTransform:
   m_Children:
   - {fileID: 59386794}
   - {fileID: 1025224584}
+  - {fileID: 479651341}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5006,7 +5256,7 @@ GameObject:
   - component: {fileID: 2030640661}
   m_Layer: 7
   m_Name: Right Arm
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5067,6 +5317,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1858641279445934396, guid: d484ae80f4725f34fabbc103dc8c4648, type: 3}
   m_PrefabInstance: {fileID: 6383508974010397186}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2077252453 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2393090966973703367, guid: d484ae80f4725f34fabbc103dc8c4648, type: 3}
+  m_PrefabInstance: {fileID: 6383508974010397186}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e96869c64ffa7c4abdeedfd062e422e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2141320822
 GameObject:
   m_ObjectHideFlags: 0
@@ -5219,12 +5480,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2393090966973703367, guid: d484ae80f4725f34fabbc103dc8c4648, type: 3}
       propertyPath: SoundEffects.Array.size
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2393090966973703367, guid: d484ae80f4725f34fabbc103dc8c4648, type: 3}
+      propertyPath: 'SoundEffects.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: d8f5a366f47f86746ba99490b33ac4d1, type: 3}
+    - target: {fileID: 2393090966973703367, guid: d484ae80f4725f34fabbc103dc8c4648, type: 3}
+      propertyPath: 'SoundEffects.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 2054bbd0cbf3593418f5223cef5eb413, type: 3}
+    - target: {fileID: 2393090966973703367, guid: d484ae80f4725f34fabbc103dc8c4648, type: 3}
+      propertyPath: 'SoundEffects.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: b68bc3fef3c1fe043ba6198f162c6be1, type: 3}
     - target: {fileID: 2393090966973703367, guid: d484ae80f4725f34fabbc103dc8c4648, type: 3}
       propertyPath: 'SoundEffects.Array.data[3]'
       value: 
-      objectReference: {fileID: 8300000, guid: f884972997c245d46bdad5f2fd6bfcab, type: 3}
+      objectReference: {fileID: 8300000, guid: 66f41cc2ba85a004e964da44de946e00, type: 3}
+    - target: {fileID: 2393090966973703367, guid: d484ae80f4725f34fabbc103dc8c4648, type: 3}
+      propertyPath: 'SoundEffects.Array.data[4]'
+      value: 
+      objectReference: {fileID: 8300000, guid: fd4c370c07a62d147b1900922d6a1541, type: 3}
+    - target: {fileID: 2393090966973703367, guid: d484ae80f4725f34fabbc103dc8c4648, type: 3}
+      propertyPath: 'SoundEffects.Array.data[5]'
+      value: 
+      objectReference: {fileID: 8300000, guid: c345ceae408637c4685d79abf3119d30, type: 3}
+    - target: {fileID: 2393090966973703367, guid: d484ae80f4725f34fabbc103dc8c4648, type: 3}
+      propertyPath: 'SoundEffects.Array.data[6]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 7c1548d650567bf468067a036800582b, type: 3}
+    - target: {fileID: 2393090966973703367, guid: d484ae80f4725f34fabbc103dc8c4648, type: 3}
+      propertyPath: 'SoundEffects.Array.data[7]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 6a430b9250c0a474b9a89001edf7ba06, type: 3}
+    - target: {fileID: 2393090966973703367, guid: d484ae80f4725f34fabbc103dc8c4648, type: 3}
+      propertyPath: 'SoundEffects.Array.data[8]'
+      value: 
+      objectReference: {fileID: 8300000, guid: aea2d7ab361e75b418db3768811849bb, type: 3}
+    - target: {fileID: 2393090966973703367, guid: d484ae80f4725f34fabbc103dc8c4648, type: 3}
+      propertyPath: 'SoundEffects.Array.data[9]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 866a15c45ca750b4a92193396d4b0f6c, type: 3}
     - target: {fileID: 8887322937796850556, guid: d484ae80f4725f34fabbc103dc8c4648, type: 3}
       propertyPath: m_Name
       value: SoundManager
