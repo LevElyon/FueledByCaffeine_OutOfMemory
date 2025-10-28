@@ -307,5 +307,8 @@ MonoBehaviour:
   audios: []
   MusicSource: {fileID: 640146214674410881}
   SFXSource: {fileID: 8400522928917310510}
-  SoundEffects: []
+  SoundEffects:
+  - {fileID: 8300000, guid: a55a702fe3bd7c74380daa444b81f674, type: 3}
+  - {fileID: 8300000, guid: bbdd64c088913dc4aa00089eb880421a, type: 3}
+  - {fileID: 8300000, guid: f884972997c245d46bdad5f2fd6bfcab, type: 3}
   BGMusic: []

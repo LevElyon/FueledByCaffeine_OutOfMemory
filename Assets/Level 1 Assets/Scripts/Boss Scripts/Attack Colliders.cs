@@ -9,8 +9,11 @@ public class AttackColliders : MonoBehaviour
         {
             if (collision.GetComponent<PlayerHitboxScript>().playerBlockParryController.CheckParry())
             {
-                Debug.Log("Parried attack, 0 damage");
                 collision.GetComponent<PlayerHitboxScript>().TakeDamage(0, (collision.transform.position - this.transform.position).normalized);
+            }
+            else if (collision.GetComponent<PlayerHitboxScript>().playerBlockParryController.GetIsBlocking())
+            {
+                collision.GetComponent<PlayerHitboxScript>().TakeDamage(10, (collision.transform.position - this.transform.position).normalized);
             }
             else
             {

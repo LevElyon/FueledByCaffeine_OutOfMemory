@@ -270,7 +270,7 @@ public class BossStateMoveToEnd : BossStates
         }
         else
         {
-            bossScript.MoveTowards(dTime, endPos, bossScript.moveSpeed * 8);
+            bossScript.MoveTowards(dTime, endPos, bossScript.moveSpeed * 6);
         }
     }
     public override void InRangePlayer()

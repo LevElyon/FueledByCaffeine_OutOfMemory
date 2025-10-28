@@ -158,7 +158,7 @@ public class PlayerHealthController : MonoBehaviour
     /// <summary>
     /// Trigger invulnerability frames after taking damage
     /// </summary>
-    private void TriggerInvulnerability()
+    public void TriggerInvulnerability()
     {
         isInvulnerable = true;
         invulnerabilityTimer = invulnerabilityDuration;

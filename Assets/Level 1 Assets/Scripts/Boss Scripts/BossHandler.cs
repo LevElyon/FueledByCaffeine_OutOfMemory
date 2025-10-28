@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class BossHandler : MonoBehaviour
 {
+    public SoundManager SoundManager;
+
     public float moveSpeed = 5f;
     public float maxHP = 100;
     public float currentHP;
@@ -257,11 +259,11 @@ public class BossHandler : MonoBehaviour
         {
             case (1):
                 bossAnims.SetBool("DoAttackLeft", true);
-                //bossAnims.Play("Left Swing");
+                SoundManager.SFXSource.PlayOneShot(SoundManager.SoundEffects[6], 1);
                 break;
             case (2):
                 bossAnims.SetBool("DoAttackRight", true);
-                //bossAnims.Play("Right Swing");
+                SoundManager.SFXSource.PlayOneShot(SoundManager.SoundEffects[6], 1);
                 break;
 
             default: return;
@@ -283,7 +285,8 @@ public class BossHandler : MonoBehaviour
         {
             if (currentHP - damage <= 0)
             {
-                //Play dying sound
+                currentHP = 0;
+                SoundManager.SFXSource.PlayOneShot(SoundManager.SoundEffects[4], 1);
                 BossDies();
                 return;
             }
@@ -298,7 +301,7 @@ public class BossHandler : MonoBehaviour
     public void BossDies()
     {
         EndDashAttack();
-        Destroy(this.gameObject, 1);
+        Destroy(this.gameObject, 2);
     }
 
     public void CheckFlip(bool toBool)
@@ -315,11 +318,19 @@ public class BossHandler : MonoBehaviour
 
     public void ToggleLCollider()
     {
+        if (leftSwing == null)
+        {
+            return;
+        }
         leftSwing.enabled = !leftSwing.enabled;
     }
 
     public void ToggleRCollider()
     {
+        if (rightSwing == null)
+        {
+            return;
+        }
         rightSwing.enabled = !rightSwing.enabled;
     }
 
@@ -427,8 +438,8 @@ public class BossHandler : MonoBehaviour
     {
         foreach (GameObject g in DashPaths)
         {
-            g.GetComponent<SpriteRenderer>().enabled = false;
             g.GetComponent<SpriteRenderer>().sprite = defaultSprite;
+            g.GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 
@@ -440,5 +451,10 @@ public class BossHandler : MonoBehaviour
     public IEnumerator DelayBySeconds(float time)
     {
         yield return new WaitForSecondsRealtime(time);
+    }
+
+    public void SetBackToChase()
+    {
+        SetCurrentState(new BossStatesChase1(this));
     }
 }

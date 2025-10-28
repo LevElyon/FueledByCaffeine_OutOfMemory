@@ -9,6 +9,7 @@ public class LogoGlitchController : MonoBehaviour
     public float normalDuration = 2f;
     public float glitchDuration = 0.3f;
     public float maxGlitchIntensity = 0.2f;
+    public SoundManager SoundManager;
 
     private Material logoMaterialInstance;
 
@@ -27,6 +28,7 @@ public class LogoGlitchController : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(normalDuration);
+            SoundManager.SFXSource.PlayOneShot(SoundManager.SoundEffects[0], 1);
 
             float t = 0f;
             while (t < glitchDuration)

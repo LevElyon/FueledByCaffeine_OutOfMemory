@@ -8,6 +8,9 @@ public class BossSceneController : LevelController
     public PlayerHealthController PlayerHealthController;
     public UnityEngine.UI.Slider PlayerHP;
 
+    public PlayerStaminaController PlayerStaminaController;
+    public UnityEngine.UI.Slider PlayerStamina;
+
     public BossHandler bossHandler;
     public UnityEngine.UI.Slider BossHP;
     private void Start()
@@ -31,5 +34,6 @@ public class BossSceneController : LevelController
     {
         PlayerHP.value = PlayerHealthController.GetHealthPercent();
         BossHP.value = bossHandler.BossHpPercent();
+        PlayerStamina.value = PlayerStaminaController.GetStaminaPercent();
     }
 }

@@ -5,6 +5,8 @@ public class PlayerAnimationController : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private PlayerRecoveryController recoveryController;
+    public SoundManager SoundManager;
+    [SerializeField] private PlayerHealthController playerHealthController;
 
     private static readonly string PARAM_SPEED = "Speed";
     private static readonly string PARAM_IS_ATTACKING = "IsAttacking";
@@ -46,6 +48,8 @@ public class PlayerAnimationController : MonoBehaviour
             return;
 
         animator.SetTrigger(PARAM_IS_ATTACKING);
+        SoundManager.SFXSource.PlayOneShot(SoundManager.SoundEffects[0], 1);
+
         isAttacking = true;
     }
 
@@ -55,6 +59,8 @@ public class PlayerAnimationController : MonoBehaviour
             return;
 
         animator.SetTrigger(PARAM_IS_DODGING);
+        SoundManager.SFXSource.PlayOneShot(SoundManager.SoundEffects[1], 1);
+        playerHealthController.TriggerInvulnerability();
         isDodging = true;
     }
 
@@ -65,12 +71,14 @@ public class PlayerAnimationController : MonoBehaviour
             return;
 
         animator.SetTrigger(PARAM_IS_THROWING);
+        SoundManager.SFXSource.PlayOneShot(SoundManager.SoundEffects[3], 1);
         isThrowing = true;
     }
 
     public void TriggerHit()
     {
         animator.SetTrigger(PARAM_IS_HIT);
+        SoundManager.SFXSource.PlayOneShot(SoundManager.SoundEffects[2], 1);
         isHit = true;
     }
 
@@ -96,6 +104,7 @@ public class PlayerAnimationController : MonoBehaviour
         if (isDead) return; // Already dead
 
         animator.SetTrigger(PARAM_IS_DEAD);
+        SoundManager.SFXSource.PlayOneShot(SoundManager.SoundEffects[4], 1);
         isDead = true;
 
 #if UNITY_EDITOR

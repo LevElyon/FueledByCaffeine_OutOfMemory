@@ -5,6 +5,7 @@ public class LimbsBreaking : MonoBehaviour
 {
     public BossHandler bossHandler;
     public GameObject parentObj;
+    public SoundManager SoundManager;
     public float Limb_Max_HP;
     public float Limb_Current_HP;
     public SpriteRenderer[] LimbSprites;
@@ -41,6 +42,7 @@ public class LimbsBreaking : MonoBehaviour
 
     public IEnumerator DamageFlash()
     {
+        SoundManager.SFXSource.PlayOneShot(SoundManager.SoundEffects[7], 1);
         foreach (SpriteRenderer s in LimbSprites)
         {
             s.color = Color.darkRed;

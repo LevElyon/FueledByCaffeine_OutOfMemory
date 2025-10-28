@@ -25,7 +25,10 @@ public class PlayerBlockParryController : MonoBehaviour
     private PlayerAnimationController animController;
     private PlayerStaminaController staminaController;
     private Animator animator;
+
     public BossHandler BossHandler;
+    public SoundManager SoundManager;
+    [SerializeField] private PlayerHealthController playerHealthController;
 
     void Start()
     {
@@ -74,6 +77,7 @@ public class PlayerBlockParryController : MonoBehaviour
         isParrying = false;
 
         animController.TriggerBlock();
+        SoundManager.SFXSource.PlayOneShot(SoundManager.SoundEffects[5], 1);
     }
 
     /// <summary>
@@ -107,6 +111,7 @@ public class PlayerBlockParryController : MonoBehaviour
         if (isBlocking && blockActive && parryActiveTime < parryWindowDuration)
         {
             ExecuteParry();
+            playerHealthController.TriggerInvulnerability();
             BossHandler.IncreaseStagger(40);
             return true;
         }
@@ -137,6 +142,7 @@ public class PlayerBlockParryController : MonoBehaviour
         Debug.Log("Parry successful! Refunded " + staminaController.parryStaminaRefund + " stamina");
 
         animController.TriggerParry();
+        SoundManager.SFXSource.PlayOneShot(SoundManager.SoundEffects[9], 1);
     }
 
     // ========== ANIMATION CALLBACKS (Called from animation events) ==========
@@ -158,6 +164,11 @@ public class PlayerBlockParryController : MonoBehaviour
         animController.StopBlock();
 
         Debug.Log("Parry ended - player must press block again to defend");
+    }
+
+    public bool GetIsBlocking()
+    {
+        return isBlocking;
     }
 
     // ========== STATE QUERIES (Use these for debugging/UI) ==========

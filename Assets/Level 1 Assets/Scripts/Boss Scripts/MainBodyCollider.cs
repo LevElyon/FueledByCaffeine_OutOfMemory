@@ -10,6 +10,8 @@ public class MainBodyCollider : MonoBehaviour
     public Collider2D damageCollider;
     public SpriteRenderer thisSprite;
     private Color defaultColor;
+
+    public SoundManager soundManager;
     private void Start()
     {
         damageCollider.enabled = false;
@@ -44,6 +46,7 @@ public class MainBodyCollider : MonoBehaviour
     }
     public IEnumerator DamageFlash()
     {
+        soundManager.SFXSource.PlayOneShot(soundManager.SoundEffects[8], 1);
         thisSprite.color = Color.darkRed;
         yield return new WaitForSecondsRealtime(0.3f);
         thisSprite.color = defaultColor;
